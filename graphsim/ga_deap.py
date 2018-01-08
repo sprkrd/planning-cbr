@@ -1,9 +1,9 @@
 from random import random
 from bitstring import BitArray
 from deap import base, creator, tools, algorithms
-from utils import default_f_score, default_g_cost
-from algorithms import m_score, m_similarity
-from classes import VertexMapping
+from .utils import default_f_score, default_g_cost
+from .algorithms import m_score, m_similarity
+from .classes import VertexMapping
 import numpy as np
 
 

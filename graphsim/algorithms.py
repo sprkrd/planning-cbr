@@ -1,5 +1,5 @@
-from classes import Graph, VertexMapping
-from utils import default_f_score, default_g_cost, exists, forall
+from .classes import Graph, VertexMapping
+from .utils import default_f_score, default_g_cost, exists, forall
 from time import clock
 from random import choice
 

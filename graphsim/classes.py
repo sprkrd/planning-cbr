@@ -1,8 +1,8 @@
 import graphviz as gv
 
-from utils import list_to_pretty_str, add_value_to_dict, exists,\
-                  remove_value_from_dict, default_g_cost, default_f_score,\
-                  index_by_length_and_label, match_feature
+from .utils import list_to_pretty_str, add_value_to_dict, exists,\
+                   remove_value_from_dict, default_g_cost, default_f_score,\
+                   index_by_length_and_label, match_feature
 
 from copy import deepcopy
 
