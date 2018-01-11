@@ -1,6 +1,23 @@
+import subprocess
+import re
 
 
 INF = float("inf") 
+
+matcher = re.compile("Initial heuristic value for (\w+): (\d+)")
+
+def call_fastdownward(domain_file, problem_file, *heuristics):
+    heuristics = heuristics or ["add()"]
+    cmd = ["fast-downward.py", domain_file, problem_file, "--search",
+            "eager_greedy(["+",".join(heuristics)+"], bound=0)"]
+    process = subprocess.run(cmd, stdout=subprocess.PIPE)
+    out = process.stdout.decode("ascii")
+    heuristic_values = {}
+    for m in matcher.finditer(out):
+        name = m.group(1)
+        value = m.group(2)
+        heuristic_values[name] = float(value)
+    return heuristic_values
 
 
 class Heuristic:
@@ -95,12 +112,29 @@ class IndexedNoveltyHeuristic(Heuristic):
         self._novelty_dict.clear()
 
 
-class AdditiveHeuristic(Heuristic):
-
+class CachedHeuristic(Heuristic):
+    
     def __init__(self):
         self._cache = {}
 
-    def hadd(self, state, goal):
+    def h(self, state, goal):
+        raise NotImplementedError()
+
+    def __call__(self, node):
+        state = node.state
+        goal = state.problem().goal()
+        cache = self._cache
+        if state not in cache:
+            cache[state] = self.h(state, goal)
+        return cache[state]
+
+    def reset(self):
+        self._cache.clear()
+
+
+class AdditiveHeuristic(CachedHeuristic):
+
+    def h(self, state, goal):
         hadd = {}
         for pred in state:
             hadd[pred] = 0
@@ -117,28 +151,17 @@ class AdditiveHeuristic(Heuristic):
                         fixpoint = False
         return sum(hadd.get(pred,INF) for pred in goal)
 
-    def __call__(self, node):
-        state = node.state
-        goal = state.problem().goal()
-        cache = self._cache
-        if state not in cache:
-            cache[state] = self.hadd(state, goal)
-        return cache[state]
 
-    def reset(self):
-        self._cache.clear()
-
-
-class RelaxedPlanningGraphHeuristic(Heuristic):
+class RelaxedPlanningGraphHeuristic(CachedHeuristic):
     
     def __init__(self):
         self._cache = {}
 
-    def rpg(self, state, goal):
+    def h(self, state, goal):
         layer = set(state.predicates())
         target = goal.predicates()
         available_ops = state.problem().operators()
-        # remaining_ops = []
+        remaining_ops = []
         n_action_layers = 0
         fixpoint = False
         while not fixpoint and not target.issubset(layer):
@@ -148,24 +171,14 @@ class RelaxedPlanningGraphHeuristic(Heuristic):
                 if layer.issuperset(op.pre_list()):
                     fixpoint = False
                     next_layer.update(op.add_list())
-                # else:
-                    # remaining_ops.append(op)
-            # available_ops = remaining_ops
-            # remaining_ops = []
+                else:
+                    remaining_ops.append(op)
+            available_ops = remaining_ops
+            remaining_ops = []
             layer = next_layer
             n_action_layers += 1
         return INF if fixpoint else n_action_layers
 
-    def __call__(self, node):
-        state = node.state
-        goal = state.problem().goal()
-        cache = self._cache
-        if state not in cache:
-            cache[state] = self.rpg(state, goal)
-        return cache[state]
-
-    def reset(self):
-        self._cache.clear()
 
 class LinearCombination(Heuristic):
 
@@ -196,4 +209,12 @@ class ConcatenateHeuristic(Heuristic):
     def reset(self):
         for h in self.heuristics:
             h.reset()
+
+
+if __name__ == "__main__":
+    # quick test
+    import sys
+    f1, f2 = sys.argv[1:3]
+    heuristics = sys.argv[3:]
+    print(call_fastdownward(f1, f2, *heuristics))
 
