@@ -26,7 +26,7 @@ class Canvas:
         end = self._transform_point(end)
         dwg.add(dwg.line(perc(*begin), perc(*end), stroke=stroke))
 
-    def draw_rect()
+    def draw_rect(self, center, size, color="white", stroke="black"):
         dwg = self._dwg
         cx,cy = self._transform_point(center)
         sx,sy = size
