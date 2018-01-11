@@ -26,6 +26,14 @@ class Canvas:
         end = self._transform_point(end)
         dwg.add(dwg.line(perc(*begin), perc(*end), stroke=stroke))
 
+    def draw_rect()
+        dwg = self._dwg
+        cx,cy = self._transform_point(center)
+        sx,sy = size
+        top_corner = (cx-sx/2, cy+sy/2)
+        dwg.add(dwg.rect(perc(cx-sx/2, cy-sy/2), perc(sx, sy), stroke=stroke, fill=color))
+
+
     def draw_rect_with_text(self, center, size, text, color="white", stroke="black"):
         dwg = self._dwg
         cx,cy = self._transform_point(center)
@@ -55,6 +63,14 @@ class Canvas:
             center = (1/10*cx, cy -  sy/2 - 6)
             self.draw_rect_with_text(center, size, holding)
 
+    def draw_people(self, center_of_floor, number_of_people):
+        dwg = self._dwg
+        dwg.add(dwg.circle(center=center_of_floor, r=2, fill="black"))
+        dwg.add(dwg.text(number_of_people, insert=perc(center_of_floor[0]+5, center_of_floor[1])))
+
+    def draw_building(self, floors, size):
+        dwg = self._dwg
+        
 
     def svg(self):
         return self._dwg.tostring()

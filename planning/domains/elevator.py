@@ -83,15 +83,6 @@ class ElevatorDomain(Domain):
 
     def draw(self, problem, state):
         floors = [o for o,t in problem.objects() if "floor" in t]
-        stacks = {}
-        holding = None
-        for pred in state:
-            if pred[0] == "on":
-                above = pred[1]
-                below = pred[2]
-                stacks[below] = above
-            elif pred[0] == "holding":
-                holding = pred[1]
 
         margin_left = 5
         margin_right = 5
@@ -101,24 +92,16 @@ class ElevatorDomain(Domain):
         l = L/(len(floors)+1)
         floor_size = (1, 80)
         floor_x = [i*l for i in range(1,len(floors)+1)]
-        passenger_height = l * 4/5
-        passenger_width = passenger_height
+        number_of_people = 3
         canvas = Canvas(size, margin_left, margin_right, margin_bottom)
-        canvas.draw_plane(0)
-        canvas.draw_robot(holding, (passenger_width, passenger_height))
+        
+        canvas.draw_people((size[0]/2, size[1]/2), number_of_people)
 
         for i,x in enumerate(floor_x):
             p = "floor" + str(i+1)
             height = 0
-            d = stacks.get(p, None)
-            while d is not None:
-                passenger_size = int(d[-2:])
-                passenger_center = (x, (height+0.5)*passenger_height)
-                #canvas.draw_rect(passenger_center, (passenger_width, passenger_height))
-                #canvas.write_text(d, passenger_center)
-                canvas.draw_rect_with_text(passenger_center, (passenger_width, passenger_height), d)
-                d = stacks.get(d, None)
-                height += 1
+            
+                
         return canvas.svg()
 
     def generate_problem(self, n, m=3, name="elevator-00"):
