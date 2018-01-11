@@ -34,8 +34,7 @@ class Search:
             status = FOUND
             self._plan = [(self._problem.goal(), None)]
         else:
-            status = NOT_FOUND
-        status = self._run_search()
+            status = self._run_search()
         if self._timeout and not self._stop_timeout:
             # cancel timeout
             timer.cancel()
