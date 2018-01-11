@@ -147,6 +147,9 @@ class Domain:
     def operators(self):
         return self._operators
 
+    def predicates(self):
+        return self._predicates
+
     def draw(self, problem, state):
         raise NotImplementedError()
 
@@ -164,6 +167,7 @@ class Problem:
     def __init__(self, name, domain, objects, init, goal):
         self._name = name
         self._domain = domain
+        self._objects_single = objects
         self._objects = [(o,inferred_types(t, domain.types())) for o,t in objects]
         self._init = State(init, self) 
         self._goal = State(goal, self)
@@ -179,7 +183,7 @@ class Problem:
         return self._domain
 
     def objects(self):
-        return self._objects
+        return self._objects_single
 
     def init(self):
         return self._init

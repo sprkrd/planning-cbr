@@ -55,6 +55,8 @@ class HanoiDomain(Domain):
         super().__init__(
                 name="Hanoi",
                 operators=[HanoiDomain.MOVE_OP],
+                predicates=[("clear", "?what"),
+                    ("on", ("?above", "disk"), ("?below", "object"))],
                 types={"disk":"object", "peg":"object"}
         )
 
