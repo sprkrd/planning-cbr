@@ -43,6 +43,12 @@ class Operator:
                 ground_ops.append(self.ground(sigma))
         return ground_ops
 
+    def name(self):
+        return self._name
+
+    def parameters(self):
+        return self._parameters
+
     def cost(self):
         return self._cost
 
@@ -126,10 +132,11 @@ class State:
 
 class Domain:
 
-    def __init__(self, name, operators, types=None):
+    def __init__(self, name, operators, predicates=None, types=None):
         self._name = name
         self._types = types or {}
         self._operators = operators
+        self._predicates = predicates
 
     def name(self):
         return self._name
