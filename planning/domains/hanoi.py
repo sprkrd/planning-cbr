@@ -14,9 +14,15 @@ def size_constraint(sigma):
     return valid_from and valid_to
 
 
-def random_state(disks, pegs):
+def random_state(disks, pegs, goal=False):
     state = []
     top = {peg:peg for peg in pegs}
+    if not goal:
+        for i, disk in enumerate(disks):
+            for peg in pegs:
+                state.append(("smaller", disk, peg))
+            for disk_ in disks[i+1:]:
+                state.append(("smaller", disk, disk_))
     for disk in reversed(disks):
         peg = choice(pegs)
         below = top[peg]
@@ -27,9 +33,15 @@ def random_state(disks, pegs):
     return state
 
 
-def deterministic_state(disks, pegs, p):
+def deterministic_state(disks, pegs, p, goal=False):
     state = []
     below = p
+    if not goal:
+        for i, disk in enumerate(disks):
+            for peg in pegs:
+                state.append(("smaller", disk, peg))
+            for disk_ in disks[i+1:]:
+                state.append(("smaller", disk, disk_))
     for disk in reversed(disks):
         state.append(("on", disk, below))
         below = disk
@@ -45,7 +57,8 @@ class HanoiDomain(Domain):
     MOVE_OP = Operator(
             name="move",
             parameters=[("?what","disk"), ("?from","object"), ("?to","object")],
-            pre=[("clear", "?what"), ("clear", "?to"), ("on", "?what", "?from")],
+            pre=[("clear", "?what"), ("clear", "?to"), ("on", "?what", "?from"),
+                 ("smaller", "?what", "?to")],
             add=[("clear", "?from"), ("on", "?what", "?to")],
             del_=[("clear", "?to"), ("on", "?what", "?from")],
             constraints=[all_different, size_constraint],
@@ -56,6 +69,7 @@ class HanoiDomain(Domain):
                 name="Hanoi",
                 operators=[HanoiDomain.MOVE_OP],
                 predicates=[("clear", "?what"),
+                    ("smaller", ("?o0", "disk"), ("?o1", "object")),
                     ("on", ("?above", "disk"), ("?below", "object"))],
                 types={"disk":"object", "peg":"object"}
         )
@@ -101,10 +115,10 @@ class HanoiDomain(Domain):
         disks = ['disk{:02d}'.format(i) for i in range(1,n+1)]
         if random:
             init = random_state(disks, pegs)
-            goal = random_state(disks, pegs)
+            goal = random_state(disks, pegs, goal=True)
         else:
             init = deterministic_state(disks, pegs, "peg1")
-            goal = deterministic_state(disks, pegs, "peg"+str(m))
+            goal = deterministic_state(disks, pegs, "peg"+str(m), goal=True)
         return Problem(
                 name=name,
                 domain=self,

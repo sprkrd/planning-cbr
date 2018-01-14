@@ -97,13 +97,14 @@ pddl_problem_template = """
 (:metric minimize (total-cost)))
 """
 
-def pddl_problem(problem):
+def pddl_problem(problem, init=None):
+    init = init or problem.init()
     object_list = []
     pddl = pddl_problem_template.format(
             problem_name=problem.name(),
             domain_name=problem.domain().name(),
             object_list=' '.join(map(obj_to_str, problem.objects())),
-            init_state=predicate_list_to_str(list(problem.init().predicates())),
+            init_state=predicate_list_to_str(list(init.predicates())),
             goal_condition=predicate_list_to_str(list(problem.goal().predicates())),
     )
     return pddl
@@ -111,9 +112,9 @@ def pddl_problem(problem):
 
 class PddlDomainFile:
 
-    def __init__(self, domain, round_costs=0):
-        self.pddl = pddl_domain(domain, round_costs)
-        self.prefix = '{}__'.format(domain['name'])
+    def __init__(self, domain, ops=None):
+        self.pddl = pddl_domain(domain, ops)
+        self.prefix = '{}__'.format(domain.name())
         self.filename = None
 
     def __enter__(self):
@@ -129,9 +130,9 @@ class PddlDomainFile:
 
 class PddlProblemFile:
 
-    def __init__(self, problem):
-        self.pddl = pddl_problem(problem)
-        self.prefix = '{}__{}__'.format(problem['domain'], problem['name'])
+    def __init__(self, problem, init=None):
+        self.pddl = pddl_problem(problem, init)
+        self.prefix = '{}__{}__'.format(problem.domain().name(), problem.name())
         self.filename = None
 
     def __enter__(self):

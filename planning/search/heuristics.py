@@ -1,6 +1,12 @@
 import subprocess
 import re
+import os
 
+from ..pddl_utility import PddlProblemFile, pddl_domain
+
+from sklearn import neighbors
+
+from .search import SearchNode
 
 INF = float("inf") 
 
@@ -14,10 +20,10 @@ def call_fastdownward(domain_file, problem_file, *heuristics):
     out = process.stdout.decode("ascii")
     heuristic_values = {}
     for m in matcher.finditer(out):
-        name = m.group(1)
+        name = m.group(1) + "()"
         value = m.group(2)
         heuristic_values[name] = float(value)
-    return heuristic_values
+    return [heuristic_values[h] for h in heuristics]
 
 
 class Heuristic:
@@ -154,9 +160,6 @@ class AdditiveHeuristic(CachedHeuristic):
 
 class RelaxedPlanningGraphHeuristic(CachedHeuristic):
     
-    def __init__(self):
-        self._cache = {}
-
     def h(self, state, goal):
         layer = set(state.predicates())
         target = goal.predicates()
@@ -178,6 +181,63 @@ class RelaxedPlanningGraphHeuristic(CachedHeuristic):
             layer = next_layer
             n_action_layers += 1
         return INF if fixpoint else n_action_layers
+
+
+class FDHeuristic(CachedHeuristic):
+
+    def __init__(self, domain, *heuristics):
+        super().__init__()
+        self._heuristics = list(heuristics)
+        domains_folder = "domains_pddl"
+        self._domain_file = os.path.join(domains_folder, domain.name()+".pddl")
+        try:
+            os.mkdir(domains_folder)
+        except OSError:
+            pass
+        if not os.path.exists(self._domain_file):
+            with open(self._domain_file, "w") as f:
+                f.write(pddl_domain(domain))
+
+    def h(self, state, goal):
+        problem = state.problem()
+        with PddlProblemFile(problem, state) as p:
+            h = call_fastdownward(self._domain_file, p.filename, *self._heuristics)
+        return h
+
+
+class CBRHeuristic(Heuristic):
+    
+    def __init__(self, heuristic, X_0, y_0, **kwargs):
+        self._heuristic = heuristic
+        # prepare KNN regressor
+        self._X = X_0
+        self._y = y_0
+        self._kwargs = kwargs
+        k = kwargs.get("k", 3)
+        weights = kwargs.get("weights", "distance")
+        self._knn = neighbors.KNeighborsRegressor(k, weights)
+        self._knn.fit(X_0, y_0)
+
+    def __call__(self, node):
+        h = self._heuristic(node)
+        return self._knn.predict([h])[0]
+
+    def reset(self):
+        self._heuristic.reset()
+
+    def update(self, search):
+        new_X = []
+        new_y = []
+        plan_len = len(search.plan())
+        for i, state in enumerate(search.state_sequence()):
+            if i == plan_len:
+                break
+            h = self._heuristic(SearchNode(state))
+            new_X.append(h)
+            new_y.append(plan_len - i)
+        self._X = np.r_[self._X, new_X]
+        self._y = np.r_[self._y, new_y]
+        self._knn.fit(self._X, self._y)
 
 
 class LinearCombination(Heuristic):
