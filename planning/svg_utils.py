@@ -20,6 +20,13 @@ class Canvas:
         end = (100-self._margin_left-self._margin_right, height)
         self.draw_line(begin, end, stroke)
 
+    def draw_floor(self, height, number_people, stroke="black"):
+        dwg = self._dwg
+        begin = (50, height)
+        end = (100-self._margin_left, height)
+        self.draw_line(begin, end, stroke)
+        self.draw_people((begin[0]+5,  height - 5), number_people)
+
     def draw_line(self, begin, end, stroke="black"):
         dwg = self._dwg
         begin = self._transform_point(begin)
@@ -63,14 +70,43 @@ class Canvas:
             center = (1/10*cx, cy -  sy/2 - 6)
             self.draw_rect_with_text(center, size, holding)
 
-    def draw_people(self, center_of_floor, number_of_people):
+    def draw_people(self, center, number_of_people):
         dwg = self._dwg
-        dwg.add(dwg.circle(center=center_of_floor, r=2, fill="black"))
-        dwg.add(dwg.text(number_of_people, insert=perc(center_of_floor[0]+5, center_of_floor[1])))
+        #print(perc(center_of_floor))
+        cx, cy = self._transform_point(center)
+        dwg.add(dwg.circle(center=perc(cx, cy), r=2, fill="black"))
+        dwg.add(dwg.text(number_of_people, insert=perc(cx+2, cy)))
 
-    def draw_building(self, floors, size):
+    def draw_lift(self, floor, number_of_people, number_floors):
+    	dwg = self._dwg
+
+    	canvas_sx, canvas_sy = 100, 100
+    	sx, sy = 90, 90
+
+    	L = sx
+    	l = L/(number_floors)
+
+    	self.draw_rect((canvas_sx/4, floor*l - l/2 + self._margin_bottom), (l - 5, l -5))
+    	self.draw_people((canvas_sx/4, floor*l - l/2 + self._margin_bottom), number_of_people)
+
+    def draw_building(self, number_floors, people_distribution):
         dwg = self._dwg
+
+        canvas_sx, canvas_sy = 100, 100
+        sx, sy = 90, 90
+
+        L = sx
+        l = L/(number_floors)
+
+        self.draw_rect((canvas_sx/2, canvas_sy/2), (sx, sy))
         
+        begin = (canvas_sx/2, canvas_sy - self._margin_bottom)
+        end = (canvas_sx/2, self._margin_bottom)
+        self.draw_line(begin, end)
+
+        list_dic = sorted(people_distribution.items())
+        for i in range (number_floors):
+            self.draw_floor(l*(i+1) + self._margin_bottom, list_dic[i][1])
 
     def svg(self):
         return self._dwg.tostring()
