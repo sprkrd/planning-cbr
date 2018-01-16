@@ -37,14 +37,6 @@ floor - object)
 
 
 
-(:action board__floor1__passenger04
-:parameters ()
-:precondition (and (lift-at floor1) (origin passenger04 floor1))
-:effect (and (boarded passenger04)  (increase (total-cost) 1))
-)
-
-
-
 (:action board__floor2__passenger01
 :parameters ()
 :precondition (and (lift-at floor2) (origin passenger01 floor2))
@@ -65,14 +57,6 @@ floor - object)
 :parameters ()
 :precondition (and (lift-at floor2) (origin passenger03 floor2))
 :effect (and (boarded passenger03)  (increase (total-cost) 1))
-)
-
-
-
-(:action board__floor2__passenger04
-:parameters ()
-:precondition (and (lift-at floor2) (origin passenger04 floor2))
-:effect (and (boarded passenger04)  (increase (total-cost) 1))
 )
 
 
@@ -101,14 +85,6 @@ floor - object)
 
 
 
-(:action board__floor3__passenger04
-:parameters ()
-:precondition (and (lift-at floor3) (origin passenger04 floor3))
-:effect (and (boarded passenger04)  (increase (total-cost) 1))
-)
-
-
-
 (:action board__floor4__passenger01
 :parameters ()
 :precondition (and (lift-at floor4) (origin passenger01 floor4))
@@ -129,14 +105,6 @@ floor - object)
 :parameters ()
 :precondition (and (lift-at floor4) (origin passenger03 floor4))
 :effect (and (boarded passenger03)  (increase (total-cost) 1))
-)
-
-
-
-(:action board__floor4__passenger04
-:parameters ()
-:precondition (and (lift-at floor4) (origin passenger04 floor4))
-:effect (and (boarded passenger04)  (increase (total-cost) 1))
 )
 
 
@@ -165,14 +133,6 @@ floor - object)
 
 
 
-(:action depart__floor1__passenger04
-:parameters ()
-:precondition (and (lift-at floor1) (destin passenger04 floor1) (boarded passenger04))
-:effect (and (served passenger04) (not (boarded passenger04)) (increase (total-cost) 1))
-)
-
-
-
 (:action depart__floor2__passenger01
 :parameters ()
 :precondition (and (lift-at floor2) (destin passenger01 floor2) (boarded passenger01))
@@ -193,14 +153,6 @@ floor - object)
 :parameters ()
 :precondition (and (lift-at floor2) (destin passenger03 floor2) (boarded passenger03))
 :effect (and (served passenger03) (not (boarded passenger03)) (increase (total-cost) 1))
-)
-
-
-
-(:action depart__floor2__passenger04
-:parameters ()
-:precondition (and (lift-at floor2) (destin passenger04 floor2) (boarded passenger04))
-:effect (and (served passenger04) (not (boarded passenger04)) (increase (total-cost) 1))
 )
 
 
@@ -229,14 +181,6 @@ floor - object)
 
 
 
-(:action depart__floor3__passenger04
-:parameters ()
-:precondition (and (lift-at floor3) (destin passenger04 floor3) (boarded passenger04))
-:effect (and (served passenger04) (not (boarded passenger04)) (increase (total-cost) 1))
-)
-
-
-
 (:action depart__floor4__passenger01
 :parameters ()
 :precondition (and (lift-at floor4) (destin passenger01 floor4) (boarded passenger01))
@@ -257,14 +201,6 @@ floor - object)
 :parameters ()
 :precondition (and (lift-at floor4) (destin passenger03 floor4) (boarded passenger03))
 :effect (and (served passenger03) (not (boarded passenger03)) (increase (total-cost) 1))
-)
-
-
-
-(:action depart__floor4__passenger04
-:parameters ()
-:precondition (and (lift-at floor4) (destin passenger04 floor4) (boarded passenger04))
-:effect (and (served passenger04) (not (boarded passenger04)) (increase (total-cost) 1))
 )
 
 
