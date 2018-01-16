@@ -2,8 +2,8 @@
 (define (domain Elevator)
 (:requirements :strips :typing :action-costs)
 (:types
-floor - object
-passenger - object)
+passenger - object
+floor - object)
 (:predicates
 (origin ?person - passenger ?floor - floor)
 (destin ?person - passenger ?floor - floor)
