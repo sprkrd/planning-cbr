@@ -47,7 +47,7 @@ class Canvas:
         sx,sy = size
         top_corner = (cx-sx/2, cy+sy/2)
         dwg.add(dwg.rect(perc(cx-sx/2, cy-sy/2), perc(sx, sy), stroke=stroke, fill=color))
-        dwg.add(dwg.text(text, insert=perc(cx-sx*35/100, cy+sy*2/9), fill=stroke))
+        dwg.add(dwg.text(text, insert=perc(cx-sx*35/100, cy+sy*2/9, size=self._size), fill=stroke))
 
     def draw_robot(self, holding, size, robot_color="blue", stroke="black"):
         dwg = self._dwg
@@ -75,7 +75,7 @@ class Canvas:
         #print(perc(center_of_floor))
         cx, cy = self._transform_point(center)
         dwg.add(dwg.circle(center=perc(cx, cy), r=2, fill="black"))
-        dwg.add(dwg.text(number_of_people, insert=perc(cx+2, cy)))
+        dwg.add(dwg.text(number_of_people, insert=perc(cx+2, cy, size=self._size)))
 
     def draw_lift(self, floor, number_of_people, number_floors):
     	dwg = self._dwg
@@ -115,6 +115,10 @@ class Canvas:
         return self.svg()
 
 
-def perc(*t):
-    return tuple(map(lambda x: str(x)+"%", t))
+def perc(*t, size=None):
+    if size:
+        return tuple(map(lambda p: p[0]*p[1]/100, zip(t,size)))
+    else:
+        return tuple(map(lambda x: str(x)+"%", t))
+
 
