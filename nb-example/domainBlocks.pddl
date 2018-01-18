@@ -2,8 +2,8 @@
 (define (domain Blocks)
 (:requirements :strips :typing :action-costs)
 (:types
-slot - object
-block - object)
+block - object
+slot - object)
 (:predicates
 (on ?what - block ?from - object)
 (holding ?what - block)
