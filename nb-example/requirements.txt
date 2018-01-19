@@ -2,4 +2,5 @@ python-chess
 deap
 graphviz
 svgwrite
+scikit_learn
 
