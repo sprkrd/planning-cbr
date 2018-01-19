@@ -1,0 +1,1360 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{final\_presentation}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{SEL 2017/18 - Practical Work 3 - CBR prototype for
+planning}\label{sel-201718---practical-work-3---cbr-prototype-for-planning}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Introduction
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    Basic principles of the CBR engine project. The general ideas of the
+    CBR engine implemented, from a technical point of view. That means
+    explaining what are the general implementation guidelines of your
+    project (which kind of Case Library structure, which kind of case
+    structure, etc., without giving more details).
+  \item
+    Chosen application domain
+  \end{enumerate}
+\item
+  Requirement Analysis of the CBR engine Project. The requirements
+  include both the user requirements (main functionalities of the system
+  that user needs, i.e., what the system must do?) and the technical
+  requirements of the system (maximum time response of the system,
+  maximum memory size of the system, etc.).
+\item
+  Functional Architecture of the CBR engine Project, describing the
+  input, the output, the different components of the system and their
+  interactions.
+\item
+  Proposed CBR engine Project solution design:
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    Case Structure and Case Library structure designed
+  \item
+    Methods implementing each CBR cycle step (retrieval, adaptation,
+    evaluation and learning)
+  \end{enumerate}
+\item
+  Testing and evaluation.
+\item
+  Discussion of results.
+\end{enumerate}
+
+    \subsection{1. Introduction}\label{introduction}
+
+In this document we present the work done for the third delivery of the
+subject Supervised and Experimental Learning (SEL), which is about
+designing a CBR for planning. A CBR based on the use of several
+Heuristics has been developed and used in three different well known
+planning domains. A discussion about the results is also provided at the
+end of the document.
+
+\subsubsection{1.1. Basic Principles of the CBR engine
+project}\label{basic-principles-of-the-cbr-engine-project}
+
+Our aim was to implement a CBR engine which combined several heuristics
+in order to give a closer estimation of the optimal length of the plan
+to solve one of our domain's problems. In our project, we have
+considered that the cost of performing an action is uniform, so that we
+will not make any difference between number of states and cost of a
+plan.
+
+The general idea of our work is to use the heuristic calculated by the
+CBR as the perfect heuristic of any search algorithm used in pathfinding
+and graph traversal (IDA*, A*, etc.). We use A*, which guarantees to
+find the optimal plan if an only if the found heuristic is admissible,
+that is, it is smaller or equal to the perfect heuristic. However, in
+our case, we have relaxed the condition of finding the optimal plan, in
+order to save computational cost and find a valid path quicker.
+Specifically, we do not look at the absolute value of the heuristic, but
+at the order that the heuristic produces in the states which are part of
+the plan.
+
+The Case Library Structure we have used is \emph{k-d tree}, the reason
+is that we work with numerical values which can be organised following
+such a structure. For us, each case is a vector of numbers,
+specifically, a vector of heuristics.
+
+\subsubsection{1.2. Chosen application
+domain}\label{chosen-application-domain}
+
+For this practical work we have chosen three different domains: The
+Tower of Hanoi, Blocks World and Elevators. All of them are typical
+domains used in Planning. We present the three domains and show examples
+of them using blind search methods (BFS and IDS). We also use those
+methods as target in order to test our CBR system.
+
+Nevertheless, our project is quite ambitious because we have implemented
+it for general purpose. It can be apply to any kind of problem which can
+be written using the sintax used in STRIPS.
+
+\paragraph{1.2.1. The Tower of Hanoi}\label{the-tower-of-hanoi}
+
+The Tower of Hanoi is a mathematical game or puzzle. It consists of
+three rods and a number of disks of different sizes, which can slide
+onto any rod. The puzzle starts with the disks in a neat stack in
+ascending order of size on one rod, the smallest at the top, thus making
+a conical shape.
+
+The objective of the puzzle is to move the entire stack to another rod,
+obeying the following simple rules:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Only one disk can be moved at a time.
+\item
+  Each move consists of taking the upper disk from one of the stacks and
+  placing it on top of another stack.
+\item
+  No disk may be placed on top of a smaller disk.
+\end{enumerate}
+
+We have defined the domain in Python and it contains a single operator:
+\texttt{move(?what-disk,\ ?from-object,\ ?to-object)}, which moves disk
+\texttt{?what} from object \texttt{?from} (either a peg or another disk)
+to object \texttt{?to} (also, either a peg or a disk). Our planning
+framework can take care of static preconditions. That is, it does not
+instantiate the move operator for moving a disk onto a smaller disk) so
+it is not necessary to encode static predicates in the state (the
+\texttt{smaller(?disk1,?disk2)} predicates that are typically seen in
+PDDL Hanoi domains).
+
+We have also implemented a problem generator. The generator can create
+problems for any number of disks and pegs. It also allows random initial
+and ending configurations. Our first example will be fairly simple and
+will have 3 pegs, all the disks in the first peg in the initial state
+and all the disks in the third peg in the goal configuration. Although
+the goal in this case details the position of every disk, notice that
+this does not necessarily has to be the case always. The goal does not
+need to be a complete description of the end configuration. It is
+perfectly reasonable, and our framework allows it, to consider partial
+states (e.g. we want the biggest disk in the third peg, and we do not
+care about the rest).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{planning}
+        
+        \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{display}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{domain\PYZus{}name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Hanoi}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{domain} \PY{o}{=} \PY{n}{planning}\PY{o}{.}\PY{n}{domains}\PY{p}{[}\PY{n}{domain\PYZus{}name}\PY{p}{]}
+        \PY{n}{problem} \PY{o}{=} \PY{n}{domain}\PY{o}{.}\PY{n}{generate\PYZus{}problem}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{random}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{domain}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} print(problem)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Init:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{display}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{init}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Goal:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{display}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{goal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Applicable actions in 1st state:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{l} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{filter}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{init}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{can\PYZus{}apply}\PY{p}{,} \PY{n}{problem}\PY{o}{.}\PY{n}{operators}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{str}\PY{p}{,} \PY{n}{l}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} print(planning.pddl\PYZus{}utility.pddl\PYZus{}actions(l))}
+        \PY{c+c1}{\PYZsh{} print(planning.pddl\PYZus{}utility.pddl\PYZus{}domain(domain, problem.operators()))}
+        \PY{c+c1}{\PYZsh{} print(planning.pddl\PYZus{}utility.pddl\PYZus{}problem(problem))}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{domain}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n}{domain\PYZus{}name}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.pddl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{w}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{d}\PY{p}{,} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{problem}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n}{domain\PYZus{}name}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.pddl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{w}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{p}\PY{p}{:}
+            \PY{n}{d}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{planning}\PY{o}{.}\PY{n}{pddl\PYZus{}utility}\PY{o}{.}\PY{n}{pddl\PYZus{}domain}\PY{p}{(}\PY{n}{domain}\PY{p}{,} \PY{n}{problem}\PY{o}{.}\PY{n}{operators}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            \PY{n}{p}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{planning}\PY{o}{.}\PY{n}{pddl\PYZus{}utility}\PY{o}{.}\PY{n}{pddl\PYZus{}problem}\PY{p}{(}\PY{n}{problem}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Domain: Hanoi
+Types: \{'disk': 'object', 'peg': 'object'\}
+Operators:
+  - move(?what-disk,?from-object,?to-object):
+    Pre: clear(?what), clear(?to), on(?what,?from), smaller(?what,?to)
+    Add: clear(?from), on(?what,?to)
+    Delete: clear(?to), on(?what,?from)
+Init:
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Goal:
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_3.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Applicable actions in 1st state:
+move(disk01,disk02,peg2)
+move(disk01,disk02,peg3)
+
+    \end{Verbatim}
+
+    We can solve this problem so that we get the following result.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{bfs} \PY{o}{=} \PY{n}{planning}\PY{o}{.}\PY{n}{BreadthFirstSearch}\PY{p}{(}\PY{n}{problem}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{timeout}\PY{o}{=}\PY{l+m+mf}{30.0}\PY{p}{,} \PY{n}{node\PYZus{}bound}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}
+        \PY{n}{status} \PY{o}{=} \PY{n}{bfs}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{status} \PY{o}{==} \PY{n}{planning}\PY{o}{.}\PY{n}{search}\PY{o}{.}\PY{n}{FOUND}\PY{p}{:}
+            \PY{n}{plan} \PY{o}{=} \PY{n}{bfs}\PY{o}{.}\PY{n}{plan}\PY{p}{(}\PY{p}{)}
+            \PY{n}{state\PYZus{}sequence} \PY{o}{=} \PY{n}{bfs}\PY{o}{.}\PY{n}{state\PYZus{}sequence}\PY{p}{(}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}Generated nodes: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{bfs}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{generated}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{k}{if} \PY{k+kc}{True}\PY{p}{:} \PY{c+c1}{\PYZsh{}len(plan) \PYZlt{} 10:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Plan:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{op}\PY{p}{)} \PY{k}{for} \PY{n}{op} \PY{o+ow}{in} \PY{n}{bfs}\PY{o}{.}\PY{n}{plan}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{state} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{bfs}\PY{o}{.}\PY{n}{state\PYZus{}sequence}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{)}
+                    \PY{n}{display}\PY{p}{(}\PY{n}{state}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[0.004s] Plan found with 7 action(s)
+\#Generated nodes: 24
+Plan:
+  move(disk01,disk02,peg3)
+  move(disk02,disk03,peg2)
+  move(disk01,peg3,disk02)
+  move(disk03,peg1,peg3)
+  move(disk01,disk02,peg1)
+  move(disk02,peg2,disk03)
+  move(disk01,peg1,disk02)
+step 0
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 1
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_3.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 2
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_5.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 3
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_7.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 4
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_9.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 5
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_11.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 6
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_13.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 7
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_15.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{1.2.2. Blocks World}\label{blocks-world}
+
+The blocks world is one of the most famous planning domains in
+artificial intelligence. Imagine a set of wooden blocks of various
+shapes and colors sitting on a table. The goal is to build one or more
+vertical stacks of blocks. The catch is that only one block may be moved
+at a time: it may either be placed on the table or placed atop another
+block. Because of this, any blocks that are, at a given time, under
+another block cannot be moved. Moreover, some kinds of blocks cannot
+have other blocks stacked on top of them.
+
+The simplicity of this toy world lends itself readily to symbolic or
+classical A.I. approaches, in which the world is modeled as a set of
+abstract symbols which may be reasoned about.
+
+One relevant difference between our implementation of the domain with
+respect to the original one, is that our table is not infinite, we
+actually let users choose the number of slots (positions) that the table
+will have.
+
+We have defined the domain in Python and it contains a two operators:
+\texttt{pick(?what-block,\ ?from-object,\ ?to-object)}, which picks
+block \texttt{?what} from object \texttt{?from} (either a slot of the
+table or another block) and \texttt{put(?what-block,\ ?to-object)},
+which puts block to object \texttt{?to} (also, either one position of
+the table or a block). Our planning framework can take care of static
+preconditions (no instantiations of operators for one block with
+itself).
+
+We have also implemented a problem generator. The generator can create
+problems for any number of blocks and slots on the table. Our first
+example will be fairly simple and will have 3 blocks, and 3 slots.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k+kn}{import} \PY{n+nn}{planning}
+        
+        \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{display}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{domain\PYZus{}name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Blocks}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{domain} \PY{o}{=} \PY{n}{planning}\PY{o}{.}\PY{n}{domains}\PY{p}{[}\PY{n}{domain\PYZus{}name}\PY{p}{]}
+        \PY{n}{problem} \PY{o}{=} \PY{n}{domain}\PY{o}{.}\PY{n}{generate\PYZus{}problem}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{domain}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} print(problem)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Init:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{display}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{init}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Goal:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{display}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{goal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Applicable actions in 1st state:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{l} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{filter}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{init}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{can\PYZus{}apply}\PY{p}{,} \PY{n}{problem}\PY{o}{.}\PY{n}{operators}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{str}\PY{p}{,} \PY{n}{l}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{domain}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n}{domain\PYZus{}name}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.pddl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{w}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{d}\PY{p}{,} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{problem}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n}{domain\PYZus{}name}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.pddl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{w}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{p}\PY{p}{:}
+            \PY{n}{d}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{planning}\PY{o}{.}\PY{n}{pddl\PYZus{}utility}\PY{o}{.}\PY{n}{pddl\PYZus{}domain}\PY{p}{(}\PY{n}{domain}\PY{p}{,} \PY{n}{problem}\PY{o}{.}\PY{n}{operators}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            \PY{n}{p}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{planning}\PY{o}{.}\PY{n}{pddl\PYZus{}utility}\PY{o}{.}\PY{n}{pddl\PYZus{}problem}\PY{p}{(}\PY{n}{problem}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Domain: Blocks
+Types: \{'block': 'object', 'slot': 'object'\}
+Operators:
+  - pick(?what-block,?from-object):
+    Pre: clear(?what), on(?what,?from), handempty()
+    Add: clear(?from), holding(?what)
+    Delete: clear(?what), on(?what,?from), handempty()
+  - put(?what-block,?to-object):
+    Pre: holding(?what), clear(?to)
+    Add: clear(?what), on(?what,?to), handempty()
+    Delete: holding(?what), clear(?to)
+Init:
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Goal:
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_3.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Applicable actions in 1st state:
+pick(block01,slot3)
+pick(block02,block03)
+
+    \end{Verbatim}
+
+    We can solve this problem so that we get the following result.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{bfs} \PY{o}{=} \PY{n}{planning}\PY{o}{.}\PY{n}{BreadthFirstSearch}\PY{p}{(}\PY{n}{problem}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{timeout}\PY{o}{=}\PY{l+m+mf}{30.0}\PY{p}{,} \PY{n}{node\PYZus{}bound}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}
+        \PY{n}{status} \PY{o}{=} \PY{n}{bfs}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{status} \PY{o}{==} \PY{n}{planning}\PY{o}{.}\PY{n}{search}\PY{o}{.}\PY{n}{FOUND}\PY{p}{:}
+            \PY{n}{plan} \PY{o}{=} \PY{n}{bfs}\PY{o}{.}\PY{n}{plan}\PY{p}{(}\PY{p}{)}
+            \PY{n}{state\PYZus{}sequence} \PY{o}{=} \PY{n}{bfs}\PY{o}{.}\PY{n}{state\PYZus{}sequence}\PY{p}{(}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}Generated nodes: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{bfs}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{generated}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{k}{if} \PY{k+kc}{True}\PY{p}{:} \PY{c+c1}{\PYZsh{}len(plan) \PYZlt{} 10:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Plan:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{op}\PY{p}{)} \PY{k}{for} \PY{n}{op} \PY{o+ow}{in} \PY{n}{bfs}\PY{o}{.}\PY{n}{plan}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{state} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{bfs}\PY{o}{.}\PY{n}{state\PYZus{}sequence}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{)}
+                    \PY{n}{display}\PY{p}{(}\PY{n}{state}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[0.011s] Plan found with 10 action(s)
+\#Generated nodes: 85
+Plan:
+  pick(block01,slot3)
+  put(block01,slot1)
+  pick(block02,block03)
+  put(block02,block01)
+  pick(block03,slot2)
+  put(block03,slot3)
+  pick(block02,block01)
+  put(block02,block03)
+  pick(block01,slot1)
+  put(block01,slot2)
+step 0
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 1
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_3.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 2
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_5.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 3
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_7.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 4
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_9.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 5
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_11.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 6
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_13.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 7
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_15.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 8
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_17.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 9
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_19.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 10
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_21.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{1.2.3. Elevators Domain}\label{elevators-domain}
+
+Let's consider we have a building with several foors and people who want
+to go from one floor to another one. A lift, starting from one of the
+floors, has to satisfy all people petitions. The resctrictions are the
+following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The lift can just move one floor each step
+\item
+  Just one person can get into/outo the lift each step
+\end{enumerate}
+
+We have defined the domain in Python and it contains a four operators:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{board(?f-floor,\ ?p-passenger)}, which boards the passenger
+  \texttt{?p} which is in the floor \texttt{?f}.
+\item
+  \texttt{depart(?f-floor,\ ?p-passenger)}, which departs the passenger
+  \texttt{?p} in the floor \texttt{?f}. The passenger passes to be
+  served.
+\item
+  \texttt{drive\_up(?f1-floor,\ ?f2-floor)}, the lift goes up from floor
+  \texttt{?f1} to floor \texttt{?f2}.
+\item
+  \texttt{drive\_down(?f1-floor,\ ?f2-floor)}, the lift goes down from
+  floor \texttt{?f1} to floor \texttt{?f2}.
+\end{enumerate}
+
+Our planning framework can take care of static preconditions (no
+instantiations of operators for the same instance).
+
+We have also implemented a problem generator. The generator can create
+problems for any number of people and floors. Our first example will be
+fairly simple and will have 4 people and 4 floors. Again, we use BFS and
+IDS.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{domain\PYZus{}name} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Elevator}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{domain} \PY{o}{=} \PY{n}{planning}\PY{o}{.}\PY{n}{domains}\PY{p}{[}\PY{n}{domain\PYZus{}name}\PY{p}{]}
+        \PY{n}{problem} \PY{o}{=} \PY{n}{domain}\PY{o}{.}\PY{n}{generate\PYZus{}problem}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{domain}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{problem}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Init:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{display}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{init}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Goal:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}display(problem.goal())}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Applicable actions in 1st state:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n+nb}{str}\PY{p}{,} \PY{n+nb}{filter}\PY{p}{(}\PY{n}{problem}\PY{o}{.}\PY{n}{init}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{can\PYZus{}apply}\PY{p}{,} \PY{n}{problem}\PY{o}{.}\PY{n}{operators}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{domain}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n}{domain\PYZus{}name}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.pddl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{w}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{d}\PY{p}{,} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{problem}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n}{domain\PYZus{}name}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.pddl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{w}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{p}\PY{p}{:}
+            \PY{n}{d}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{planning}\PY{o}{.}\PY{n}{pddl\PYZus{}utility}\PY{o}{.}\PY{n}{pddl\PYZus{}domain}\PY{p}{(}\PY{n}{domain}\PY{p}{,} \PY{n}{problem}\PY{o}{.}\PY{n}{operators}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            \PY{n}{p}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{planning}\PY{o}{.}\PY{n}{pddl\PYZus{}utility}\PY{o}{.}\PY{n}{pddl\PYZus{}problem}\PY{p}{(}\PY{n}{problem}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Domain: Elevator
+Types: \{'passenger': 'object', 'floor': 'object'\}
+Operators:
+  - board(?f-floor,?p-passenger):
+    Pre: lift-at(?f), origin(?p,?f)
+    Add: boarded(?p)
+    Delete: 
+  - depart(?f-floor,?p-passenger):
+    Pre: lift-at(?f), destin(?p,?f), boarded(?p)
+    Add: served(?p)
+    Delete: boarded(?p)
+  - drive\_down(?f1-floor,?f2-floor):
+    Pre: lift-at(?f1), above(?f2,?f1)
+    Add: lift-at(?f2)
+    Delete: lift-at(?f1)
+  - drive\_up(?f1-floor,?f2-floor):
+    Pre: lift-at(?f1), above(?f1,?f2)
+    Add: lift-at(?f2)
+    Delete: lift-at(?f1)
+Problem: elevator-00
+Domain: Elevator
+Initial state:
+  above(floor1,floor2)
+  above(floor2,floor3)
+  above(floor3,floor4)
+  destin(passenger01,floor4)
+  destin(passenger02,floor1)
+  destin(passenger03,floor4)
+  lift-at(floor1)
+  origin(passenger01,floor3)
+  origin(passenger02,floor2)
+  origin(passenger03,floor2)
+Goal:
+  above(floor1,floor2)
+  above(floor2,floor3)
+  above(floor3,floor4)
+  destin(passenger01,floor4)
+  destin(passenger02,floor1)
+  destin(passenger03,floor4)
+  origin(passenger01,floor3)
+  origin(passenger02,floor2)
+  origin(passenger03,floor2)
+  served(passenger01)
+  served(passenger02)
+  served(passenger03)
+Ground operators:
+  board(floor1,passenger01)
+  board(floor1,passenger02)
+  board(floor1,passenger03)
+  board(floor2,passenger01)
+  board(floor2,passenger02)
+  board(floor2,passenger03)
+  board(floor3,passenger01)
+  board(floor3,passenger02)
+  board(floor3,passenger03)
+  board(floor4,passenger01)
+  board(floor4,passenger02)
+  board(floor4,passenger03)
+  depart(floor1,passenger01)
+  depart(floor1,passenger02)
+  depart(floor1,passenger03)
+  depart(floor2,passenger01)
+  depart(floor2,passenger02)
+  depart(floor2,passenger03)
+  depart(floor3,passenger01)
+  depart(floor3,passenger02)
+  depart(floor3,passenger03)
+  depart(floor4,passenger01)
+  depart(floor4,passenger02)
+  depart(floor4,passenger03)
+  drive\_down(floor1,floor2)
+  drive\_down(floor1,floor3)
+  drive\_down(floor1,floor4)
+  drive\_down(floor2,floor1)
+  drive\_down(floor2,floor3)
+  drive\_down(floor2,floor4)
+  drive\_down(floor3,floor1)
+  drive\_down(floor3,floor2)
+  drive\_down(floor3,floor4)
+  drive\_down(floor4,floor1)
+  drive\_down(floor4,floor2)
+  drive\_down(floor4,floor3)
+  drive\_up(floor1,floor2)
+  drive\_up(floor1,floor3)
+  drive\_up(floor1,floor4)
+  drive\_up(floor2,floor1)
+  drive\_up(floor2,floor3)
+  drive\_up(floor2,floor4)
+  drive\_up(floor3,floor1)
+  drive\_up(floor3,floor2)
+  drive\_up(floor3,floor4)
+  drive\_up(floor4,floor1)
+  drive\_up(floor4,floor2)
+  drive\_up(floor4,floor3)
+Init:
+\{'floor4': 0, 'floor3': 1, 'floor1': 0, 'floor2': 2\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Goal:
+Applicable actions in 1st state:
+drive\_up(floor1,floor2)
+
+    \end{Verbatim}
+
+    We can solve this problem so that we get the following result.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{bfs} \PY{o}{=} \PY{n}{planning}\PY{o}{.}\PY{n}{BreadthFirstSearch}\PY{p}{(}\PY{n}{problem}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{timeout}\PY{o}{=}\PY{l+m+mf}{30.0}\PY{p}{,} \PY{n}{node\PYZus{}bound}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}
+        \PY{n}{status} \PY{o}{=} \PY{n}{bfs}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{status} \PY{o}{==} \PY{n}{planning}\PY{o}{.}\PY{n}{search}\PY{o}{.}\PY{n}{FOUND}\PY{p}{:}
+            \PY{n}{plan} \PY{o}{=} \PY{n}{bfs}\PY{o}{.}\PY{n}{plan}\PY{p}{(}\PY{p}{)}
+            \PY{n}{state\PYZus{}sequence} \PY{o}{=} \PY{n}{bfs}\PY{o}{.}\PY{n}{state\PYZus{}sequence}\PY{p}{(}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}Generated nodes: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{bfs}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{generated}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{k}{if} \PY{k+kc}{True}\PY{p}{:} \PY{c+c1}{\PYZsh{}len(plan) \PYZlt{} 10:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Plan:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{op}\PY{p}{)} \PY{k}{for} \PY{n}{op} \PY{o+ow}{in} \PY{n}{bfs}\PY{o}{.}\PY{n}{plan}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{state} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{bfs}\PY{o}{.}\PY{n}{state\PYZus{}sequence}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{)}
+                    \PY{n}{display}\PY{p}{(}\PY{n}{state}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[0.018s] Plan found with 11 action(s)
+\#Generated nodes: 147
+Plan:
+  drive\_up(floor1,floor2)
+  board(floor2,passenger02)
+  board(floor2,passenger03)
+  drive\_down(floor2,floor1)
+  depart(floor1,passenger02)
+  drive\_up(floor1,floor2)
+  drive\_up(floor2,floor3)
+  board(floor3,passenger01)
+  drive\_up(floor3,floor4)
+  depart(floor4,passenger01)
+  depart(floor4,passenger03)
+step 0
+\{'floor4': 0, 'floor3': 1, 'floor1': 0, 'floor2': 2\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 1
+\{'floor4': 0, 'floor3': 1, 'floor1': 0, 'floor2': 2\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_3.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 2
+\{'floor4': 0, 'floor3': 1, 'floor1': 0, 'floor2': 1\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_5.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 3
+\{'floor4': 0, 'floor3': 1, 'floor1': 0, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_7.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 4
+\{'floor4': 0, 'floor3': 1, 'floor1': 0, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_9.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 5
+\{'floor4': 1, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_11.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 6
+\{'floor4': 1, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_13.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 7
+\{'floor4': 1, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_15.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 8
+\{'floor4': 0, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_17.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 9
+\{'floor4': 0, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_19.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 10
+\{'floor4': 1, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_21.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+step 11
+\{'floor4': 2, 'floor3': 0, 'floor1': 1, 'floor2': 0\}
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_23.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{2. Requirement Analysis of the CBR engine
+Project}\label{requirement-analysis-of-the-cbr-engine-project}
+
+In this section we analayse both, the requirements from a user
+perspective and from a technical point of view.
+
+\subsubsection{2.1. Requirements: Users's
+perspective}\label{requirements-userss-perspective}
+
+Our system, general as it is, can be used in any sort of application in
+which is interesting the use of a planning system. In any domain in
+which a user has a problem which can be solved with planning techniques,
+our project is useful, so that, there are no requirements from the
+perspective of potential users. They will depend on the specific
+application of use.
+
+Note that the work developed in this project could be used by
+specialized people with technical knowledge and this include both,
+researchers and product designers at private companies.
+
+Among the possible domains in which our system could be used we find:
+robotics, industrial organization, assembly lines or applications
+related to the use of satellites.
+
+\subsubsection{2.2. Requirements: Technical
+view}\label{requirements-technical-view}
+
+As it is explained just above, our system is too general to present
+requirements as specific as: maximum time response of the system or
+maximum memory size of the system. All these requirements will show up
+once the our potential users start using our system in a specific
+application domain.
+
+When designing our system we tried to address the following specific
+requirements:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The system should be faster than a conventional planner and expand
+  less nodes when searching the solution.
+\item
+  The computed heuristic should be as precise as possible.
+\item
+  The CBR system was thought to start learning with simple problems of
+  the specific domain and continue doing so with more difficult and
+  specific problems.
+\end{enumerate}
+
+    \subsection{3. Functional Architecture of the CBR engine
+Project}\label{functional-architecture-of-the-cbr-engine-project}
+
+In this project we have designed a system of general purpose, so that
+the functional architecture is quite simple to be used. Just four
+different entities take part in our Functional Architecture:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Planner:} It is our system itself, a CBR trained for planning
+  purposes.
+\item
+  \textbf{Domain:} The domain has to be coded (just once) by the user.
+  In order to do so, it is necessary to follow the same syntaxis we have
+  used for our three domains, which is quite intuitive and tries to be
+  as close as possible to PDDL. This is one of the inputs of our CBR
+  system.
+\item
+  \textbf{Problem:} Again, the problem has to be written by the user and
+  it will be another input of our Planner.
+\item
+  \textbf{Plan:} This is the output of our system, the final plan with
+  the actions to be performed in order to solve the input problem.
+\end{itemize}
+
+Below, we can see an image of how this four elements interact.
+
+    \subsection{4. Proposed CBR engine Project solution
+design:}\label{proposed-cbr-engine-project-solution-design}
+
+In this section we analyse in depth the design of our CBR engine: the
+Case Structure and Case Library Structure and the methods used for every
+CBR cycle step.
+
+\subsubsection{4.1. Case Structure and Case Library Structure
+designed}\label{case-structure-and-case-library-structure-designed}
+
+As said in the introduction of this document, our cases are vectors of
+heuristics. Specificially, we are using eight different heuristics which
+are computed using an implementation in C of Fast Downward. Fast
+Downward is a classical planning system based on heuristic search. It
+can deal with general deterministic planning problems encoded in the
+propositional fragment of PDDL2.2, including advanced features like ADL
+conditions and effects and derived predicates (axioms).
+
+\textbf{put reference for FD...M. Helmert (2006) "The Fast Downward
+Planning System", Volume 26, pages 191-246}
+
+The implementation of Fast Downward includes several heuristics, each of
+them has four different characteristics we have used to choose them:
+
+\begin{itemize}
+\item
+  Admissible: h(s) \textless{}= h*(s) for all states s
+\item
+  Consistent: h(s) \textless{}= c(s, s') + h(s') for all states s
+  connected to states s' by an action with cost c(s, s')
+\item
+  Safe: h(s) = infinity is only true for states with h*(s) = infinity
+\item
+  Preferred operators: this heuristic identifies preferred operators
+\end{itemize}
+
+From all heuristics provided by the cited implementation, we have chosen
+the following eight to conform our cases vectors:
+
+\begin{itemize}
+\item
+  Additive (add)
+\item
+  Additive CEGAR (cegar)
+\item
+  Causal Graph (cg)
+\item
+  Canonical PDB (cpdbs)
+\item
+  FF (ff)
+\item
+  Global Count (globalcount)
+\item
+  Max Heuristic (hmax)
+\item
+  Landmark Cut (lmcut)
+\end{itemize}
+
+The computation of all these heuristics increases the time of execution
+of our code, since it is necesary to call C code from Python. That is
+one of the reasons why we decided to implement some of the heuristics in
+Python. However, we just have time to do so with the ones we identify as
+fast and good enough: Additive and Relaxed Planning Graph.
+
+Regarding the Case Library Structure, we have used \emph{k-d tree},
+which is useful for recover the sublinear time in the most similar
+cases, in our case, the vector of heuristics. The value of 'k'
+corresponds to the number of heuristics we use, eitght.
+
+\subsubsection{4.2. Methods of every CBR cycle
+step}\label{methods-of-every-cbr-cycle-step}
+
+Case-based reasoning has been formalized for purposes of computer
+reasoning as a four-step process:
+
+\begin{itemize}
+\item
+  \textbf{Retrieve:} Given a target problem, retrieve from memory cases
+  relevant to solving it. In our case, we select the retrieved solution
+  using the K-Nearest Neighbors (KNN) algorithm. The value of K has been
+  chosen empirically after some experiments. This election should be
+  improved in future versions of our system.
+\item
+  \textbf{Reuse (Adaptation):} Map the solution from the previous case
+  to the target problem. This may involve adapting the solution as
+  needed to fit the new situation. In our case we do not adapt the
+  retrieved solution, of course, a more intelligent behaviour should be
+  implemented in future work.
+\item
+  \textbf{Revise:} Having mapped the previous solution to the target
+  situation, test the new solution in the real world (or a simulation)
+  and, if necessary, revise. We compare our solution to the solution
+  given by the A* algorithm in the case of using just one heuristic, the
+  additive. We have chosen that heuristic because it works pretty well
+  and is faster. Those are some of the reasons why we directly have
+  implemented it in Python.
+\item
+  \textbf{Retain:} After the solution has been successfully adapted to
+  the target problem, store the resulting experience as a new case in
+  memory. We have decided to learn every plan we generate, of course, we
+  could improve this with a smarter strategy.
+\end{itemize}
+
+    \subsection{5. Testing}\label{testing}
+
+    \subsection{6. Evaluation}\label{evaluation}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
