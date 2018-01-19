@@ -85,7 +85,7 @@ class HanoiDomain(Domain):
         margin_left = 5
         margin_right = 5
         margin_bottom = 5
-        size = (500, 200) # canvas size
+        size = (350, 175) # canvas size
         L = 100 - margin_left - margin_right
         l = L/(len(pegs)+1)
         peg_size = (1, 80)

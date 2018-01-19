@@ -93,7 +93,7 @@ class ElevatorDomain(Domain):
         margin_left = 5
         margin_right = 5
         margin_bottom = 5
-        size = (600, 300) # canvas size
+        size = (400, 220) # canvas size
         
         
         number_of_people = 3
