@@ -7,14 +7,18 @@ from random import choice
 def random_state(passengers, floors, g): 
     init = []
     goal = []
-    for passenger in reversed(passengers):
+    origins = {}
+    for passenger in passengers:
         floor = choice(floors)
         init.append(("origin", passenger, floor))
+        origins[passenger] = floor
         if not g:
             goal.append(("origin", passenger, floor))
 
-    for passenger in reversed(passengers):
+    for passenger in passengers:
         floor = choice(floors)
+        while floor == origins[passenger]:
+            floor = choice(floors)
         init.append(("destin", passenger, floor))
         if not g:
             goal.append(("destin", passenger, floor))
@@ -101,26 +105,24 @@ class ElevatorDomain(Domain):
 
         state_preds = state.predicates()
 
-        destinations = [pred for pred in state_preds if "destin" in pred]
-        origins = [pred for pred in state_preds if "origin" in pred]
-        served = [pred for pred in state_preds if "served" in pred]
-        boarded = [pred for pred in state_preds if "boarded" in pred]
-        lift_at = [pred for pred in state_preds if "lift-at" in pred]
-        lift_floor = int(lift_at[0][1][-1])
+        destinations = [pred[1:] for pred in state_preds if pred[0] == "destin"]
+        origins = {pred[1]: pred[2] for pred in state_preds if pred[0] == "origin"}
+        served = [pred[1] for pred in state_preds if pred[0] == "served"]
+        boarded = [pred[1] for pred in state_preds if pred[0] == "boarded"]
+        lift_at = [pred[1] for pred in state_preds if pred[0] == "lift-at"][0]
+        lift_floor = int(lift_at[-1])
 
         people_distribution = {f:0 for f in floors}
 
-        for pred in destinations:
-            if all([pred[1]!=x[1] for x in boarded]):
-                if [pred[1] in x for x in served]:
-                    floor = pred[2]
+        for passenger, destin in destinations:
+            if passenger not in boarded:
+                if passenger in served:
+                    floor = destin
                 else:
-                    p = [item for item in origins if pred[1] in item]
-                    floor = p[0][2]
-
+                    floor = origins[passenger]
                 people_distribution[floor] += 1
 
-        print(people_distribution)
+        # print(people_distribution)
         canvas.draw_building(len(floors), people_distribution)
         canvas.draw_lift(lift_floor, len(boarded), len(floors))
             
