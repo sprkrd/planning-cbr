@@ -2,8 +2,8 @@
 (define (domain Hanoi)
 (:requirements :strips :typing :action-costs)
 (:types
-peg - object
-disk - object)
+disk - object
+peg - object)
 (:predicates
 (clear ?what)
 (smaller ?o0 - disk ?o1 - object)
