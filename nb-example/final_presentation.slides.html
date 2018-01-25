@@ -12040,8 +12040,13 @@ $$s_n \models g$$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Chosen-application-domain-I---The-tower-of-Hanoi">Chosen application domain I - The tower of Hanoi<a class="anchor-link" href="#Chosen-application-domain-I---The-tower-of-Hanoi">&#182;</a></h2><p>We have defined the domain in Python and it contains a single operator: <code>move(?what-disk, ?from-object, ?to-object)</code>, which moves disk <code>?what</code> from object <code>?from</code> (either a peg or another disk) to object <code>?to</code> (also, either a peg or a disk). Our planning framework can take care of static preconditions. That is, it does not instantiate the move operator for moving a disk onto a smaller disk) so it is not necessary to encode static predicates in the state (the <code>smaller(?disk1,?disk2)</code> predicates that are typically seen in PDDL Hanoi domains).</p>
-<p>We have also implemented a problem generator. The generator can create problems for any number of disks and pegs.</p>
+<h2 id="Chosen-application-domain-I---The-tower-of-Hanoi">Chosen application domain I - The tower of Hanoi<a class="anchor-link" href="#Chosen-application-domain-I---The-tower-of-Hanoi">&#182;</a></h2><p>We have defined the domain in Python and it contains a <strong>single operator</strong>: <code>move(?what-disk, ?from-object, ?to-object)</code>, which moves disk <code>?what</code> from object <code>?from</code> (either a peg or another disk) to object <code>?to</code> (also, either a peg or a disk).</p>
+<p>We have implemented static preconditions:</p>
+<ul>
+<li>Not possible to apply operator to move one disk onto a smaller one.</li>
+<li>Not possible to apply operator to move one disk onto itself.</li>
+</ul>
+<p>We have also implemented a <strong>problem generator</strong>. The generator can create problems for any number of disks and pegs.</p>
 
 </div>
 </div>
@@ -12582,7 +12587,12 @@ Plan:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Chosen-application-domain-II---Blocks-World">Chosen application domain II - Blocks World<a class="anchor-link" href="#Chosen-application-domain-II---Blocks-World">&#182;</a></h2><p>We have defined the domain in Python and it contains a two operators: <code>pick(?what-block, ?from-object, ?to-object)</code>, which picks block <code>?what</code> from object <code>?from</code> (either a slot of the table or another block) and <code>put(?what-block, ?to-object)</code>, which puts block to object <code>?to</code> (also, either one position of the table or a block). Our planning framework can take care of static preconditions (no instantiations of operators for one block with itself).</p>
+<h2 id="Chosen-application-domain-II---Blocks-World">Chosen application domain II - Blocks World<a class="anchor-link" href="#Chosen-application-domain-II---Blocks-World">&#182;</a></h2><p>We have defined the domain in Python and it contains a two operators:</p>
+<ul>
+<li><code>pick(?what-block, ?from-object, ?to-object)</code>, which picks block <code>?what</code> from object <code>?from</code> (either a slot of the table or another block) </li>
+<li><code>put(?what-block, ?to-object)</code>, which puts block to object <code>?to</code> (also, either one position of the table or a block). </li>
+</ul>
+<p>Our planning framework can take care of static preconditions (no instantiations of operators for one block with itself).</p>
 <p>We have also implemented a problem generator. The generator can create problems for any number of blocks and slots on the table.</p>
 
 </div>
@@ -13872,9 +13882,13 @@ Plan:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Requirements:-Users's-perspective">Requirements: Users's perspective<a class="anchor-link" href="#Requirements:-Users's-perspective">&#182;</a></h2><p>Our system, general as it is, can be used in any sort of application in which is interesting the use of a planning system. In any domain in which a user has a problem which can be solved with planning techniques, our project is useful, so that, there are no requirements from the perspective of potential users. They will depend on the specific application of use.</p>
-<p>Note that the work developed in this project could be used by specialized people with technical knowledge and this include both, researchers and product designers at private companies.</p>
-<p>Among the possible domains in which our system could be used we find: robotics, industrial organization, assembly lines or applications related to the use of satellites.</p>
+<h2 id="Requirements:-Users's-perspective">Requirements: Users's perspective<a class="anchor-link" href="#Requirements:-Users's-perspective">&#182;</a></h2><p>Our system, <strong>general</strong> as it is, can be used in any sort of application in which is interesting the use of a planning system. In <strong>any domain</strong> in which a user has a problem which can be solved with planning techniques, our project is useful. Requirements will depend on the <strong>specific use application</strong>.</p>
+<p>Target users (specialised people):</p>
+<ul>
+<li>Researchers</li>
+<li>Designers and developers from priver companies</li>
+</ul>
+<p>Possible domains: robotics, industrial organization, assembly lines or applications related to the use of satellites.</p>
 
 </div>
 </div>
@@ -13883,14 +13897,14 @@ Plan:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Requirements:-Technical-view">Requirements: Technical view<a class="anchor-link" href="#Requirements:-Technical-view">&#182;</a></h2><p>As it is explained just above, our system is too general to present requirements as specific as: maximum time response of the system or maximum memory size of the system. All these requirements will show up once the our potential users start using our system in a specific application domain.</p>
+<h2 id="Requirements:-Technical-view">Requirements: Technical view<a class="anchor-link" href="#Requirements:-Technical-view">&#182;</a></h2><p>Our system is pretty general so we do not have specific requirements like maximum response time.</p>
 <p>When designing our system we tried to address the following specific requirements:</p>
 <ol>
-<li><p>The system should be faster than a conventional planner and expand less nodes when searching the solution.</p>
+<li><p>The system should be <strong>faster</strong> than a conventional planner and expand <strong>less nodes</strong> when searching the solution.</p>
 </li>
-<li><p>The computed heuristic should be as precise as possible.</p>
+<li><p>The computed <strong>heuristic</strong> should be as <strong>precise</strong> as possible.</p>
 </li>
-<li><p>The CBR system was thought to start learning with simple problems of the specific domain and continue doing so with more difficult and specific problems.</p>
+<li><p>The CBR system was thought to start learning with <strong>simple problems</strong> of the specific domain and continue doing so with <strong>more difficult</strong> and specific problems.</p>
 </li>
 </ol>
 
@@ -13930,7 +13944,7 @@ Plan:
 <li><p>Landmark Cut (lmcut)</p>
 </li>
 </ul>
-<p>Regarding the Case Library Structure, we have used <em>k-d tree</em>, which is useful for recover the sublinear time in the most similar cases, in our case, the vector of heuristics. The value of 'k' corresponds to the number of heuristics we use, eitght.</p>
+<p>Regarding the <strong>Case Library Structure</strong>, we have used <em>k-d tree</em>, which is useful for recover the sublinear time in the most similar cases, in our case, the vector of heuristics. The value of 'k' corresponds to the number of heuristics we use, eitght.</p>
 
 </div>
 </div>
@@ -13940,13 +13954,13 @@ Plan:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Methods-of-every-CBR-cycle-step">Methods of every CBR cycle step<a class="anchor-link" href="#Methods-of-every-CBR-cycle-step">&#182;</a></h2><ul>
-<li><p><strong>Retrieve:</strong> Given a target problem, retrieve from memory cases relevant to solving it. In our case, we select the retrieved solution using the K-Nearest Neighbors (KNN) algorithm. The value of K has been chosen empirically after some experiments. This election should be improved in future versions of our system.</p>
+<li><p><strong>Retrieve:</strong> K-Nearest Neighbors (KNN) algorithm.</p>
 </li>
-<li><p><strong>Reuse (Adaptation):</strong> Map the solution from the previous case to the target problem. This may involve adapting the solution as needed to fit the new situation. In our case we do not adapt the retrieved solution, of course, a more intelligent behaviour should be implemented in future work.</p>
+<li><p><strong>Reuse (Adaptation):</strong> In our case we do not adapt the retrieved solution, of course, a more intelligent behaviour should be implemented in future work.</p>
 </li>
-<li><p><strong>Revise:</strong> Having mapped the previous solution to the target situation, test the new solution in the real world (or a simulation) and, if necessary, revise. We compare our solution to the solution given by the A* algorithm in the case of using just one heuristic, the additive. We have chosen that heuristic because it works pretty well and is faster. Those are some of the reasons why we directly have implemented it in Python.</p>
+<li><p><strong>Revise:</strong> We compare our solution to the solution given by the A* algorithm in the case of using just one heuristic, the additive.</p>
 </li>
-<li><p><strong>Retain:</strong> After the solution has been successfully adapted to the target problem, store the resulting experience as a new case in memory. We have decided to learn every plan we generate, of course, we could improve this with a smarter strategy.</p>
+<li><p><strong>Retain (Learning):</strong> All generated plans are learned.</p>
 </li>
 </ul>
 
@@ -13957,7 +13971,18 @@ Plan:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="5.-Testing">5. Testing<a class="anchor-link" href="#5.-Testing">&#182;</a></h2>
+<h2 id="Testing">Testing<a class="anchor-link" href="#Testing">&#182;</a></h2><ul>
+<li>Generation of several simple random problems for each domain (1000). </li>
+<li>Solving each problem with a search algorithm that is guaranteed to solve the problem optimally. </li>
+<li>Storing the heuristics computed by Fast Downward in a matrix (input attributes) and the length of the plan in a vector (output target). </li>
+<li>Training/testing split and feed a KNN regressor with the train data. </li>
+<li>Computing error on the test:<ul>
+<li>The RMS (Root Mean Square) error between the predictions and the targets</li>
+<li>The ranking error. This is, we check all the pairs of test examples and see whether the order induced by the target differs from the order induced by the prediction.</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13965,7 +13990,79 @@ Plan:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="6.-Evaluation">6. Evaluation<a class="anchor-link" href="#6.-Evaluation">&#182;</a></h2>
+<h2 id="Results-I">Results I<a class="anchor-link" href="#Results-I">&#182;</a></h2><p><img src='report_figures/Elevator_Results.png'></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Results-II">Results II<a class="anchor-link" href="#Results-II">&#182;</a></h2><p>We have computed the error of the KNN regressor and represented it in the following table:</p>
+<table>
+<thead><tr>
+<th style="text-align:right">Domain</th>
+<th style="text-align:right">RMS error</th>
+<th style="text-align:right">Ranking error (KNN)</th>
+<th style="text-align:right">Ranking error ($h_{add}$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">Hanoi</td>
+<td style="text-align:right">0.85</td>
+<td style="text-align:right">5.57%</td>
+<td style="text-align:right">13.73%</td>
+</tr>
+<tr>
+<td style="text-align:right">Blocks</td>
+<td style="text-align:right">1.00</td>
+<td style="text-align:right">2.00%</td>
+<td style="text-align:right">14.42%</td>
+</tr>
+<tr>
+<td style="text-align:right">Elevators</td>
+<td style="text-align:right">0.70</td>
+<td style="text-align:right">3.62%</td>
+<td style="text-align:right">9.31%</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">&#182;</a></h2><ul>
+<li><p>A KNN armed with a reasonably big training data set seems quite capable of obtaining a low regression error.</p>
+</li>
+<li><p>Achieving a low RMS alone is not a strong enough guarantee for outperforming classical heuristic search in terms of expanded nodes.</p>
+</li>
+<li><p>No obvious way to optimize the induced order instead of the absolute value. This is a matter of further research.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work">&#182;</a></h2><p><img src='report_figures/FutureWork.png' width='70%'></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Thanks-for-your-attention!">Thanks for your attention!<a class="anchor-link" href="#Thanks-for-your-attention!">&#182;</a></h1>
 </div>
 </div>
 </div>
