@@ -11,12 +11,11 @@
 
 <title>final_presentation slides</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
 
 <!-- General and theme style sheets -->
-<link rel="stylesheet" href="reveal.js/css/reveal.css">
-<link rel="stylesheet" href="reveal.js/css/theme/simple.css" id="theme">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.min.css" integrity="sha256-vPN+adnQKmyGqQAeBNs9+GBYVx8uQETV+DAdAXG0XBg=" crossorigin="anonymous" />
+<!-- <link rel="stylesheet" href="reveal.js/css/theme/simple.css" id="theme"> -->
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
@@ -11890,7 +11889,7 @@ a.anchor-link {
 </style>
 
 <!-- Custom stylesheet, it must be in the same directory as the html file -->
-<link rel="stylesheet" href="custom.css">
+<!-- <link rel="stylesheet" href="custom.css"> -->
 
 </head>
 
@@ -11920,8 +11919,8 @@ a.anchor-link {
 <h2 id="Outline">Outline<a class="anchor-link" href="#Outline">&#182;</a></h2><ol>
 <li><p>Introduction</p>
 <ol>
-<li>Theoretical principles of Planning</li>
-<li>Basic principles of the CBR engine project</li>
+<li>Background</li>
+<li>Principles of the CBR engine project</li>
 <li>Chosen application domain</li>
 </ol>
 </li>
@@ -11948,12 +11947,118 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>The main theme of this project is the design and implementation of a <strong>CBR system for planning</strong>. A CBR based on the use of <strong>several heuristics</strong> has been developed for <strong>general STRIPS-based domain</strong>. We exemplify this report with <strong>three different well known planning domains</strong>. We provide empirical results for these domain at the end of the document.</p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><ul>
+<li>General purpose planner<ul>
+<li>Arbitrary domains</li>
+</ul>
+</li>
+<li>Learn from experience</li>
+<li>Code at <a href="https://github.com/sprkrd/planning-cbr">https://github.com/sprkrd/planning-cbr</a></li>
+</ul>
+
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The main theme of this project is the design and implementation of a <strong>CBR system for planning</strong>. A CBR based on the use of <strong>several heuristics</strong> has been developed for <strong>general STRIPS-based domain</strong>. We exemplify this report with <strong>three different well known planning domains</strong>. We provide empirical results for these domain at the end of the document.</p>
 <p>The whole project is available in Github (<a href="https://github.com/sprkrd/planning-cbr">https://github.com/sprkrd/planning-cbr</a>).</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div>
+</aside></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Background:-STRIPS-planning">Background: STRIPS planning<a class="anchor-link" href="#Background:-STRIPS-planning">&#182;</a></h1><ul>
+<li>Problem described with propositional predicates.<ul>
+<li>E.g. (Hanoi) <code>{on(disk03, peg1), on(disk02, disk03), on(disk01, disk03), clear(disk01)}</code></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">planning</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+
+<span class="n">domain_name</span> <span class="o">=</span> <span class="s2">&quot;Hanoi&quot;</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">planning</span><span class="o">.</span><span class="n">domains</span><span class="p">[</span><span class="n">domain_name</span><span class="p">]</span>
+<span class="n">problem</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">generate_problem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">random</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">problem</span><span class="o">.</span><span class="n">init</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="83.0%" /></svg>
+</div>
+ 
+             </div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Domain knowledge</li>
+<li>Problem specific facts</li>
+</ul>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>The domain consists of:<ul>
+<li>Type hierarchy of objects</li>
+<li>The predicates' "signature"</li>
+<li>The abstract operators (unground parameters, precondition, effect and cost)</li>
+</ul>
+</li>
+<li>The specific facts consist of:<ul>
+<li>Objects</li>
+<li>Initial state</li>
+<li>Goal condition</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div><aside class="notes">
+
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -11978,14 +12083,6 @@ a.anchor-link {
 <li>Specification of the <strong>initial state</strong>, as a set of predicates</li>
 <li>Specification of the <strong>goal condition</strong> (it does not have to be a complete state), as a set of predicates</li>
 </ul>
-
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Notice that the <strong>domain is generic</strong> and shared among all the problems of the same type (e.g. the blocks world or the Towers of Hanoi), while the <strong>instance is specific to each problem</strong>. Notice too that, when specifying the domain, the operators are typically <strong>left unground</strong> (i.e. with free variables as parameters), and are <strong>instantiated</strong> for each particular problem.</p>
 <p><strong>STRIPS</strong> adopts the <strong>closed-world assumption</strong>. That is: predicates that are present in the state are true, while predicates that are not are false. That is in <strong>contraposition</strong> to the <strong>open world assumption</strong>, in which predicates that are in the state are marked explicitly as true or false and predicates that are not in the state are unknown.</p>
 <p>In this context, planning consists in <strong>finding an applicable sequence of operator that can be executed in chain from the initial state and that result in a state that satisfies the goal condition</strong>. That is, a sequence of operators $o_1, o_2, \dots, o_n$ such that</p>
@@ -11998,29 +12095,68 @@ $$s_n \models g$$</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div>
+</aside></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Basic-Principles-of-the-CBR-engine-project-I">Basic Principles of the CBR engine project I<a class="anchor-link" href="#Basic-Principles-of-the-CBR-engine-project-I">&#182;</a></h2><p>Our aim was to implement a CBR engine which combined several heuristics in order to give a closer estimation of the optimal length of the plan to solve one of our domain's problems.</p>
+<h2 id="Principles-of-the-CBR-engine-project-I">Principles of the CBR engine project I<a class="anchor-link" href="#Principles-of-the-CBR-engine-project-I">&#182;</a></h2><ul>
+<li>Heuristic function. Given planning state $s$ and goal $g$:<ul>
+<li>$h(s,g)$ approximates cost of optimum plan from $s$ to $g$</li>
+<li>Goal often subsumed $h(s,g) = h(s)$</li>
+<li>Perfect heuristic $h^*(s)$: <del>Approximation of the</del> Optimum plan cost</li>
+<li>Guides search algorithms (<strong>A*</strong>, IDA*, ...).</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our aim was to implement a CBR engine which combined several heuristics in order to give a closer estimation of the optimal length of the plan to solve one of our domain's problems.</p>
 <p>The general idea of our work is to use the heuristic calculated by the CBR as the perfect heuristic of any search algorithm used in pathfinding and graph traversal (IDA*, <strong>A*</strong>, etc.).</p>
 <p><strong>Case Library Structure</strong>  -  k-d Tree</p>
 <p><strong>Case Structure</strong>  -  Vector of heuristics</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div>
+</aside></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Basic-Principles-of-the-CBR-engine-project-II">Basic Principles of the CBR engine project II<a class="anchor-link" href="#Basic-Principles-of-the-CBR-engine-project-II">&#182;</a></h2><p>A* guarantees to find the optimal plan if the heuristic is admissible. However, in our approach, we do not look at the absolute value of the heuristic, but at the order that the heuristic induces in the plan states.</p>
+<h2 id="Basic-Principles-of-the-CBR-engine-project-II">Basic Principles of the CBR engine project II<a class="anchor-link" href="#Basic-Principles-of-the-CBR-engine-project-II">&#182;</a></h2><ul>
+<li>CBR: heuristic learning. Better approximator of $h^*(s)$<ul>
+<li>KNN regressor (K-d Tree based)</li>
+<li>X (input): vector of imperfect heuristics ($h_{add}$, $h_{max}$, $h_{cg}$, $h_{lmcut}$, ...)</li>
+<li>y (output): $h^*(s)$</li>
+</ul>
+</li>
+<li>Desired properties:</li>
+</ul>
 <p><img src='report_figures/heuristic_basic_introduction.png'></p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div><aside class="notes">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A* guarantees to find the optimal plan if the heuristic is admissible. However, in our approach, we do not look at the absolute value of the heuristic, but at the order that the heuristic induces in the plan states.</p>
+
+</div>
+</div>
+</div>
+</aside></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -12040,7 +12176,27 @@ $$s_n \models g$$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Chosen-application-domain-I---The-tower-of-Hanoi">Chosen application domain I - The tower of Hanoi<a class="anchor-link" href="#Chosen-application-domain-I---The-tower-of-Hanoi">&#182;</a></h2><p>We have defined the domain in Python and it contains a <strong>single operator</strong>: <code>move(?what-disk, ?from-object, ?to-object)</code>, which moves disk <code>?what</code> from object <code>?from</code> (either a peg or another disk) to object <code>?to</code> (also, either a peg or a disk).</p>
+<h2 id="Chosen-application-domain-I---The-tower-of-Hanoi">Chosen application domain I - The tower of Hanoi<a class="anchor-link" href="#Chosen-application-domain-I---The-tower-of-Hanoi">&#182;</a></h2><ul>
+<li><strong>Single operator</strong>: <code>move(?what-disk, ?from-object, ?to-object)</code></li>
+<li>Entangled subgoals</li>
+<li>Difficult in its most general setting:<ul>
+<li>Arbitrary goal</li>
+<li>Arbitrary initial state</li>
+<li>Arbitrary number of disks</li>
+<li><strong>Arbitrary number of pegs</strong> $\rightarrow$ branching factor</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div><aside class="notes">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have defined the domain in Python and it contains a <strong>single operator</strong>: <code>move(?what-disk, ?from-object, ?to-object)</code>, which moves disk <code>?what</code> from object <code>?from</code> (either a peg or another disk) to object <code>?to</code> (also, either a peg or a disk).</p>
 <p>We have implemented static preconditions:</p>
 <ul>
 <li>Not possible to apply operator to move one disk onto a smaller one.</li>
@@ -12050,62 +12206,16 @@ $$s_n \models g$$</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div>
+</aside></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_name</span> <span class="o">=</span> <span class="s2">&quot;Hanoi&quot;</span>
-<span class="n">domain</span> <span class="o">=</span> <span class="n">planning</span><span class="o">.</span><span class="n">domains</span><span class="p">[</span><span class="n">domain_name</span><span class="p">]</span>
-<span class="n">problem</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">generate_problem</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">random</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Applicable actions in 1st state:&quot;</span><span class="p">)</span>
-<span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">problem</span><span class="o">.</span><span class="n">init</span><span class="p">()</span><span class="o">.</span><span class="n">can_apply</span><span class="p">,</span> <span class="n">problem</span><span class="o">.</span><span class="n">operators</span><span class="p">()))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">l</span><span class="p">)))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Domain: Hanoi
-Types: {&#39;peg&#39;: &#39;object&#39;, &#39;disk&#39;: &#39;object&#39;}
-Operators:
-  - move(?what-disk,?from-object,?to-object):
-    Pre: clear(?what), clear(?to), on(?what,?from), smaller(?what,?to)
-    Add: clear(?from), on(?what,?to)
-    Delete: clear(?to), on(?what,?from)
-Applicable actions in 1st state:
-move(disk01,disk02,peg2)
-move(disk01,disk02,peg3)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Init:&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;Init:&quot;</span><span class="p">))</span>
 <span class="n">display</span><span class="p">(</span><span class="n">problem</span><span class="o">.</span><span class="n">init</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Goal:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;Goal:&quot;</span><span class="p">))</span>
 <span class="n">display</span><span class="p">(</span><span class="n">problem</span><span class="o">.</span><span class="n">goal</span><span class="p">())</span>
 </pre></div>
 
@@ -12118,97 +12228,52 @@ move(disk01,disk02,peg3)
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Init:
-</pre>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_html rendered_html output_subarea output_execute_result">
+Init:
 </div>
-</div>
+ 
+             </div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="83.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="83.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Goal:
-</pre>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_html rendered_html output_subarea output_execute_result">
+Goal:
 </div>
-</div>
+ 
+             </div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="70.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="83.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="70.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="83.0%" /></svg>
 </div>
-
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bfs</span> <span class="o">=</span> <span class="n">planning</span><span class="o">.</span><span class="n">BreadthFirstSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">node_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">status</span> <span class="o">=</span> <span class="n">bfs</span><span class="p">()</span>
-<span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">planning</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">FOUND</span><span class="p">:</span>
-    <span class="n">plan</span> <span class="o">=</span> <span class="n">bfs</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span>
-    <span class="n">state_sequence</span> <span class="o">=</span> <span class="n">bfs</span><span class="o">.</span><span class="n">state_sequence</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#Generated nodes: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bfs</span><span class="o">.</span><span class="n">info</span><span class="p">()[</span><span class="s2">&quot;generated&quot;</span><span class="p">]))</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plan:</span><span class="se">\n</span><span class="s2">  &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">bfs</span><span class="o">.</span><span class="n">plan</span><span class="p">()]))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[0.003s] Plan found with 7 action(s)
-#Generated nodes: 24
-Plan:
-  move(disk01,disk02,peg3)
-  move(disk02,disk03,peg2)
-  move(disk01,peg3,disk02)
-  move(disk03,peg1,peg3)
-  move(disk01,disk02,peg1)
-  move(disk02,peg2,disk03)
-  move(disk01,peg1,disk02)
-</pre>
-</div>
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12233,27 +12298,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 0
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="83.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="83.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12278,27 +12338,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 1
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="91.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="25.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="91.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12323,27 +12378,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 2
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="91.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="91.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12368,27 +12418,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 3
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="49.191%" y="87.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="25.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="49.191%" y="87.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12413,27 +12458,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 4
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="49.191%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="49.191%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12458,27 +12498,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 5
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="48.382%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12503,27 +12538,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 6
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="70.882%" y="87.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="26.691%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="70.882%" y="87.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12548,27 +12578,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 7
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="200" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="70.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="83.0%" /></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="175" version="1.1" width="350" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><rect fill="white" height="80%" stroke="black" width="1%" x="27.0%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="49.5%" y="15.0%" /><rect fill="white" height="80%" stroke="black" width="1%" x="72.0%" y="15.0%" /><rect fill="white" height="4%" stroke="black" width="4.854%" x="70.073%" y="91.0%" /><rect fill="white" height="4%" stroke="black" width="3.236%" x="70.882%" y="87.0%" /><rect fill="white" height="4%" stroke="black" width="1.618%" x="71.691%" y="83.0%" /></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12600,7 +12625,7 @@ Plan:
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_name</span> <span class="o">=</span> <span class="s2">&quot;Blocks&quot;</span>
@@ -12621,28 +12646,10 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Domain: Blocks
-Types: {&#39;slot&#39;: &#39;object&#39;, &#39;block&#39;: &#39;object&#39;}
-Operators:
-  - pick(?what-block,?from-object):
-    Pre: clear(?what), on(?what,?from), handempty()
-    Add: clear(?from), holding(?what)
-    Delete: clear(?what), on(?what,?from), handempty()
-  - put(?what-block,?to-object):
-    Pre: holding(?what), clear(?to)
-    Add: clear(?what), on(?what,?to), handempty()
-    Delete: holding(?what), clear(?to)
-Applicable actions in 1st state:
-pick(block01,block02)
-pick(block03,slot3)
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 </div>
 </div>
@@ -12650,7 +12657,7 @@ pick(block03,slot3)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Init:&quot;</span><span class="p">)</span>
@@ -12666,27 +12673,22 @@ pick(block03,slot3)
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Init:
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="127.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="59.0%" /><text fill="black" x="127.2" y="216.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="106.0" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="59.0%" /><text fill="black" x="106.0" y="180.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12694,7 +12696,7 @@ pick(block03,slot3)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Goal:&quot;</span><span class="p">)</span>
@@ -12710,27 +12712,22 @@ pick(block03,slot3)
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Goal:
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="127.2" y="270.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="262.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="106.0" y="225.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="218.5" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12738,7 +12735,7 @@ pick(block03,slot3)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bfs</span> <span class="o">=</span> <span class="n">planning</span><span class="o">.</span><span class="n">BreadthFirstSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">node_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -12759,23 +12756,210 @@ pick(block03,slot3)
 
 
 <div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[0.002s] Plan found with 6 action(s)
-#Generated nodes: 35
-Plan:
-  pick(block01,block02)
-  put(block01,block03)
-  pick(block02,slot1)
-  put(block02,slot2)
-  pick(block01,block03)
-  put(block01,slot1)
-</pre>
 </div>
 </div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="106.0" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="59.0%" /><text fill="black" x="106.0" y="180.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text></svg>
+</div>
+ 
+             </div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="6.0%" y="6.5%" /><text fill="black" x="43.5" y="48.75">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="106.0" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text></svg>
+</div>
+ 
+             </div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="106.0" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="59.0%" /><text fill="black" x="331.0" y="180.0">block01</text></svg>
+</div>
+ 
+             </div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="6.0%" y="6.5%" /><text fill="black" x="43.5" y="48.75">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="59.0%" /><text fill="black" x="331.0" y="180.0">block01</text></svg>
+</div>
+ 
+             </div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="218.5" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="59.0%" /><text fill="black" x="331.0" y="180.0">block01</text></svg>
+</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12800,27 +12984,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 0
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="127.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="59.0%" /><text fill="black" x="127.2" y="216.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="6.0%" y="6.5%" /><text fill="black" x="43.5" y="48.75">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="218.5" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -12845,252 +13024,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 1
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="6.0%" y="6.5%" /><text fill="black" x="52.2" y="58.5">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="127.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="250" version="1.1" width="500" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="106.0" y="225.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="218.5" y="225.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="331.0" y="225.0">block03</text></svg>
 </div>
-
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
-<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 2
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="127.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="59.0%" /><text fill="black" x="397.2" y="216.0">block01</text></svg>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
-<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 3
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="6.0%" y="6.5%" /><text fill="black" x="52.2" y="58.5">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="59.0%" /><text fill="black" x="397.2" y="216.0">block01</text></svg>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
-<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 4
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="262.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="59.0%" /><text fill="black" x="397.2" y="216.0">block01</text></svg>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
-<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 5
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="6.0%" y="6.5%" /><text fill="black" x="52.2" y="58.5">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="262.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text></svg>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">state_sequence</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
-<span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 6
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><line stroke="black" x1="5%" x2="95%" y1="95%" y2="95%" /><line stroke="blue" x1="15.0%" x2="15.0%" y1="0%" y2="5%" /><line stroke="blue" x1="5.5%" x2="5.5%" y1="5%" y2="10%" /><line stroke="blue" x1="24.5%" x2="24.5%" y1="5%" y2="10%" /><line stroke="blue" x1="5.5%" x2="24.5%" y1="5%" y2="5%" /><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="18.5%" y="77.0%" /><text fill="black" x="127.2" y="270.0">block01</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="41.0%" y="77.0%" /><text fill="black" x="262.2" y="270.0">block02</text><rect fill="white" height="18.0%" stroke="black" width="18.0%" x="63.5%" y="77.0%" /><text fill="black" x="397.2" y="270.0">block03</text></svg>
-</div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13128,7 +13077,7 @@ Plan:
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_name</span> <span class="o">=</span> <span class="s2">&quot;Elevator&quot;</span>
@@ -13149,35 +13098,10 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Domain: Elevator
-Types: {&#39;passenger&#39;: &#39;object&#39;, &#39;floor&#39;: &#39;object&#39;}
-Operators:
-  - board(?f-floor,?p-passenger):
-    Pre: lift-at(?f), origin(?p,?f)
-    Add: boarded(?p)
-    Delete: 
-  - depart(?f-floor,?p-passenger):
-    Pre: lift-at(?f), destin(?p,?f), boarded(?p)
-    Add: served(?p)
-    Delete: boarded(?p)
-  - drive_down(?f1-floor,?f2-floor):
-    Pre: lift-at(?f1), above(?f2,?f1)
-    Add: lift-at(?f2)
-    Delete: lift-at(?f1)
-  - drive_up(?f1-floor,?f2-floor):
-    Pre: lift-at(?f1), above(?f1,?f2)
-    Add: lift-at(?f2)
-    Delete: lift-at(?f1)
-Applicable actions in 1st state:
-drive_down(floor4,floor3)
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 </div>
 </div>
@@ -13185,7 +13109,7 @@ drive_down(floor4,floor3)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Init:&quot;</span><span class="p">)</span>
@@ -13201,28 +13125,22 @@ drive_down(floor4,floor3)
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Init:
-{&#39;floor2&#39;: 1, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 1}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">1</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="192.0" y="33.75">0</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">1</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="128.0" y="24.75">0</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13230,7 +13148,7 @@ drive_down(floor4,floor3)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bfs</span> <span class="o">=</span> <span class="n">planning</span><span class="o">.</span><span class="n">BreadthFirstSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">node_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -13252,29 +13170,10 @@ drive_down(floor4,floor3)
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[0.017s] Plan found with 12 action(s)
-#Generated nodes: 126
-Plan:
-  drive_down(floor4,floor3)
-  board(floor3,passenger01)
-  drive_down(floor3,floor2)
-  board(floor2,passenger03)
-  drive_down(floor2,floor1)
-  board(floor1,passenger02)
-  depart(floor1,passenger03)
-  drive_up(floor1,floor2)
-  drive_up(floor2,floor3)
-  drive_up(floor3,floor4)
-  depart(floor4,passenger01)
-  depart(floor4,passenger02)
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 </div>
 </div>
@@ -13282,7 +13181,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13299,28 +13198,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 0
-{&#39;floor2&#39;: 1, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 1}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">1</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="192.0" y="33.75">0</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">1</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="128.0" y="24.75">0</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13328,7 +13221,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13345,28 +13238,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 1
-{&#39;floor2&#39;: 1, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 1}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">1</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="25.0%" /><circle cx="30.0%" cy="33.75%" fill="black" r="2" /><text x="192.0" y="101.25">0</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">1</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="25.0%" /><circle cx="30.0%" cy="33.75%" fill="black" r="2" /><text x="128.0" y="74.25">0</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13374,7 +13261,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13391,28 +13278,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 2
-{&#39;floor2&#39;: 1, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="25.0%" /><circle cx="30.0%" cy="33.75%" fill="black" r="2" /><text x="192.0" y="101.25">1</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="25.0%" /><circle cx="30.0%" cy="33.75%" fill="black" r="2" /><text x="128.0" y="74.25">1</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13420,7 +13301,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13437,28 +13318,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 3
-{&#39;floor2&#39;: 1, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="47.5%" /><circle cx="30.0%" cy="56.25%" fill="black" r="2" /><text x="192.0" y="168.75">1</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">1</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="47.5%" /><circle cx="30.0%" cy="56.25%" fill="black" r="2" /><text x="128.0" y="123.75">1</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13466,7 +13341,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13483,28 +13358,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 4
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="47.5%" /><circle cx="30.0%" cy="56.25%" fill="black" r="2" /><text x="192.0" y="168.75">2</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="47.5%" /><circle cx="30.0%" cy="56.25%" fill="black" r="2" /><text x="128.0" y="123.75">2</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13512,7 +13381,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13529,28 +13398,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 5
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="70.0%" /><circle cx="30.0%" cy="78.75%" fill="black" r="2" /><text x="192.0" y="236.25">2</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="70.0%" /><circle cx="30.0%" cy="78.75%" fill="black" r="2" /><text x="128.0" y="173.25">2</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13558,7 +13421,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13575,28 +13438,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 6
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 0, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">0</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="70.0%" /><circle cx="30.0%" cy="78.75%" fill="black" r="2" /><text x="192.0" y="236.25">3</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">0</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="70.0%" /><circle cx="30.0%" cy="78.75%" fill="black" r="2" /><text x="128.0" y="173.25">3</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13604,7 +13461,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13621,28 +13478,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 7
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="70.0%" /><circle cx="30.0%" cy="78.75%" fill="black" r="2" /><text x="192.0" y="236.25">2</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="70.0%" /><circle cx="30.0%" cy="78.75%" fill="black" r="2" /><text x="128.0" y="173.25">2</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13650,7 +13501,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13667,28 +13518,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 8
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="47.5%" /><circle cx="30.0%" cy="56.25%" fill="black" r="2" /><text x="192.0" y="168.75">2</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="47.5%" /><circle cx="30.0%" cy="56.25%" fill="black" r="2" /><text x="128.0" y="123.75">2</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13696,7 +13541,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13713,28 +13558,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 9
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="25.0%" /><circle cx="30.0%" cy="33.75%" fill="black" r="2" /><text x="192.0" y="101.25">2</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="25.0%" /><circle cx="30.0%" cy="33.75%" fill="black" r="2" /><text x="128.0" y="74.25">2</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13742,7 +13581,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13759,28 +13598,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 10
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 0, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="192.0" y="33.75">2</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">0</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="128.0" y="24.75">2</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13788,7 +13621,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13805,28 +13638,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 11
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 1, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">1</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="192.0" y="33.75">1</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">1</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="128.0" y="24.75">1</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -13834,7 +13661,7 @@ Plan:
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;step &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">))</span>
@@ -13851,28 +13678,22 @@ Plan:
 
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>step 12
-{&#39;floor2&#39;: 0, &#39;floor1&#39;: 1, &#39;floor4&#39;: 2, &#39;floor3&#39;: 0}
-</pre>
-</div>
-</div>
+    
+        <div class="prompt"></div>
+        
+	</div>
 
 <div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_svg output_subarea ">
-<svg baseProfile="full" height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="372.0" y="217.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="372.0" y="150.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="372.0" y="82.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="372.0" y="15.0">2</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="192.0" y="33.75">0</text></svg>
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<svg baseProfile="full" height="220" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="white" height="90%" stroke="black" width="90%" x="10.0%" y="0.0%" /><line stroke="black" x1="55.0%" x2="55.0%" y1="0%" y2="90%" /><line stroke="black" x1="55%" x2="100%" y1="67.5%" y2="67.5%" /><circle cx="60%" cy="72.5%" fill="black" r="2" /><text x="248.0" y="159.5">1</text><line stroke="black" x1="55%" x2="100%" y1="45.0%" y2="45.0%" /><circle cx="60%" cy="50.0%" fill="black" r="2" /><text x="248.0" y="110.0">0</text><line stroke="black" x1="55%" x2="100%" y1="22.5%" y2="22.5%" /><circle cx="60%" cy="27.5%" fill="black" r="2" /><text x="248.0" y="60.5">0</text><line stroke="black" x1="55%" x2="100%" y1="0.0%" y2="0.0%" /><circle cx="60%" cy="5.0%" fill="black" r="2" /><text x="248.0" y="11.0">2</text><rect fill="white" height="17.5%" stroke="black" width="17.5%" x="21.25%" y="2.5%" /><circle cx="30.0%" cy="11.25%" fill="black" r="2" /><text x="128.0" y="24.75">0</text></svg>
 </div>
-
-</div>
+ 
+             </div>
 
 </div>
 </div>
@@ -14053,11 +13874,256 @@ Plan:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work">&#182;</a></h2><p><img src='report_figures/FutureWork.png' width='70%'></p>
+<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work">&#182;</a></h2>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">graphsim</span> <span class="k">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">graphsim</span> <span class="k">import</span> <span class="n">graph_match_dot</span><span class="p">,</span> <span class="n">default_f_score</span><span class="p">,</span> <span class="n">default_g_cost</span>
+<span class="kn">from</span> <span class="nn">graphsim</span> <span class="k">import</span> <span class="n">best_mapping</span><span class="p">,</span> <span class="n">greedy_mapping</span><span class="p">,</span> <span class="n">r_greedy_mapping</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="k">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">clock</span>
+
+<span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">graph2</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">best_mapping</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="n">default_f_score</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="n">default_g_cost</span><span class="p">,</span> <span class="n">display_before</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">display_before</span><span class="p">:</span> <span class="n">display</span><span class="p">(</span><span class="n">graph_match_dot</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">graph2</span><span class="p">))</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">clock</span><span class="p">()</span>
+    <span class="n">mapping</span><span class="p">,</span> <span class="n">similarity</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">graph2</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">graph_match_dot</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">graph2</span><span class="p">,</span> <span class="n">mapping</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;similarity: </span><span class="si">{:.02f}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">elapsed: </span><span class="si">{:.03f}</span><span class="s2">s&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">similarity</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">))</span>
+    
+<span class="n">graph1</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;wall&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;wall&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;next_to&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;next_to&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;next_to&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">))</span>
+
+<span class="n">graph2</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;beam&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;wall&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;next_to&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;next_to&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;next_to&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">))</span>
+
+<span class="n">demo</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">graph2</span><span class="p">)</span>
+</pre></div>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	
+            
+<div class="output_svg output_subarea output_execute_result">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="464pt" height="447pt"
+ viewBox="0.00 0.00 464.26 447.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 443)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-443 460.256,-443 460.256,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster&#45;0</title>
+<polygon fill="none" stroke="black" points="224,-8 224,-431 446,-431 446,-8 224,-8"/>
+<text text-anchor="middle" x="335" y="-415.8" font-family="Times,serif" font-size="14.00">Source graph</text>
+</g>
+<g id="clust3" class="cluster"><title>cluster&#45;1</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-431 216,-431 216,-8 8,-8"/>
+<text text-anchor="middle" x="112" y="-415.8" font-family="Times,serif" font-size="14.00">Target graph</text>
+</g>
+<!-- c -->
+<g id="node1" class="node"><title>c</title>
+<polygon fill="none" stroke="black" points="438.07,-208 411.035,-226 356.965,-226 329.93,-208 356.965,-190 411.035,-190 438.07,-208"/>
+<text text-anchor="middle" x="384" y="-204.3" font-family="Times,serif" font-size="14.00">c: I, beam</text>
+</g>
+<!-- f -->
+<g id="node5" class="node"><title>f</title>
+<polygon fill="none" stroke="black" points="347.051,-34 327.525,-52 288.475,-52 268.949,-34 288.475,-16 327.525,-16 347.051,-34"/>
+<text text-anchor="middle" x="308" y="-30.3" font-family="Times,serif" font-size="14.00">f: wall</text>
+</g>
+<!-- c&#45;&gt;f -->
+<g id="edge7" class="edge"><title>c&#45;&gt;f</title>
+<path fill="none" stroke="black" d="M354.962,-190.929C336.915,-179.163 315.261,-161.37 305,-139 293.869,-114.732 296.592,-83.8162 300.881,-62.0204"/>
+<polygon fill="black" stroke="black" points="304.329,-62.6408 303.059,-52.1223 297.492,-61.1365 304.329,-62.6408"/>
+<text text-anchor="middle" x="312" y="-117.3" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- d -->
+<g id="node6" class="node"><title>d</title>
+<polygon fill="none" stroke="black" points="437.572,-121 410.286,-139 355.714,-139 328.428,-121 355.714,-103 410.286,-103 437.572,-121"/>
+<text text-anchor="middle" x="383" y="-117.3" font-family="Times,serif" font-size="14.00">d: I, beam</text>
+</g>
+<!-- c&#45;&gt;d -->
+<g id="edge2" class="edge"><title>c&#45;&gt;d</title>
+<path fill="none" stroke="black" d="M383.798,-189.799C383.661,-178.163 383.477,-162.548 383.32,-149.237"/>
+<polygon fill="black" stroke="black" points="386.82,-149.134 383.202,-139.175 379.82,-149.216 386.82,-149.134"/>
+<text text-anchor="middle" x="403.5" y="-160.8" font-family="Times,serif" font-size="14.00">next_to</text>
+</g>
+<!-- 3 -->
+<g id="node9" class="node"><title>3</title>
+<ellipse fill="#cccccc" stroke="black" cx="87" cy="-208" rx="50.8918" ry="18"/>
+<text text-anchor="middle" x="87" y="-204.3" font-family="Times,serif" font-size="14.00">3: U, beam</text>
+</g>
+<!-- c&#45;&gt;3 -->
+<g id="edge15" class="edge"><title>c&#45;&gt;3</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M361.188,-226.213C347.726,-235.777 329.867,-246.522 312,-251.5 255.914,-267.127 237.86,-264.019 181,-251.5 156.589,-246.126 130.975,-233.763 112.66,-223.585"/>
+</g>
+<!-- a -->
+<g id="node2" class="node"><title>a</title>
+<polygon fill="none" stroke="black" points="361.07,-382 334.035,-400 279.965,-400 252.93,-382 279.965,-364 334.035,-364 361.07,-382"/>
+<text text-anchor="middle" x="307" y="-378.3" font-family="Times,serif" font-size="14.00">a: I, beam</text>
+</g>
+<!-- e -->
+<g id="node3" class="node"><title>e</title>
+<polygon fill="none" stroke="black" points="311.553,-208 291.777,-226 252.223,-226 232.447,-208 252.223,-190 291.777,-190 311.553,-208"/>
+<text text-anchor="middle" x="272" y="-204.3" font-family="Times,serif" font-size="14.00">e: wall</text>
+</g>
+<!-- a&#45;&gt;e -->
+<g id="edge6" class="edge"><title>a&#45;&gt;e</title>
+<path fill="none" stroke="black" d="M298.888,-363.808C292.899,-350.305 285.102,-330.862 281,-313 275.127,-287.43 273.018,-257.522 272.295,-236.359"/>
+<polygon fill="black" stroke="black" points="275.788,-236.064 272.03,-226.159 268.791,-236.246 275.788,-236.064"/>
+<text text-anchor="middle" x="288" y="-291.3" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- b -->
+<g id="node4" class="node"><title>b</title>
+<polygon fill="none" stroke="black" points="413.572,-295 386.286,-313 331.714,-313 304.428,-295 331.714,-277 386.286,-277 413.572,-295"/>
+<text text-anchor="middle" x="359" y="-291.3" font-family="Times,serif" font-size="14.00">b: I, beam</text>
+</g>
+<!-- a&#45;&gt;b -->
+<g id="edge1" class="edge"><title>a&#45;&gt;b</title>
+<path fill="none" stroke="black" d="M317.523,-363.799C324.853,-351.817 334.764,-335.617 343.059,-322.057"/>
+<polygon fill="black" stroke="black" points="346.26,-323.532 348.493,-313.175 340.288,-319.879 346.26,-323.532"/>
+<text text-anchor="middle" x="356.5" y="-334.8" font-family="Times,serif" font-size="14.00">next_to</text>
+</g>
+<!-- 1 -->
+<g id="node7" class="node"><title>1</title>
+<ellipse fill="#cccccc" stroke="black" cx="148" cy="-382" rx="50.8918" ry="18"/>
+<text text-anchor="middle" x="148" y="-378.3" font-family="Times,serif" font-size="14.00">1: U, beam</text>
+</g>
+<!-- a&#45;&gt;1 -->
+<g id="edge16" class="edge"><title>a&#45;&gt;1</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M252.543,-382C234.672,-382 216.801,-382 198.93,-382"/>
+</g>
+<!-- 5 -->
+<g id="node11" class="node"><title>5</title>
+<ellipse fill="#cccccc" stroke="black" cx="163" cy="-34" rx="35.194" ry="18"/>
+<text text-anchor="middle" x="163" y="-30.3" font-family="Times,serif" font-size="14.00">5: wall</text>
+</g>
+<!-- e&#45;&gt;5 -->
+<g id="edge17" class="edge"><title>e&#45;&gt;5</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M299.224,-196.65C306.248,-194.23 313.847,-191.829 321,-190 367.721,-178.055 388.405,-199.528 428,-172 454.116,-153.843 464.691,-129.435 447,-103 389.489,-17.0649 321.221,-73.1351 220,-52 210.7,-50.0582 200.723,-47.3165 191.756,-44.6006"/>
+</g>
+<!-- b&#45;&gt;c -->
+<g id="edge3" class="edge"><title>b&#45;&gt;c</title>
+<path fill="none" stroke="black" d="M364.059,-276.799C367.515,-265.047 372.165,-249.238 376.105,-235.842"/>
+<polygon fill="black" stroke="black" points="379.484,-236.757 378.948,-226.175 372.769,-234.781 379.484,-236.757"/>
+<text text-anchor="middle" x="392.5" y="-247.8" font-family="Times,serif" font-size="14.00">next_to</text>
+</g>
+<!-- b&#45;&gt;e -->
+<g id="edge5" class="edge"><title>b&#45;&gt;e</title>
+<path fill="none" stroke="black" d="M341.394,-276.799C328.659,-264.356 311.267,-247.364 297.081,-233.504"/>
+<polygon fill="black" stroke="black" points="299.178,-230.66 289.58,-226.175 294.286,-235.667 299.178,-230.66"/>
+<text text-anchor="middle" x="327" y="-247.8" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- 2 -->
+<g id="node8" class="node"><title>2</title>
+<ellipse fill="#cccccc" stroke="black" cx="124" cy="-295" rx="50.8918" ry="18"/>
+<text text-anchor="middle" x="124" y="-291.3" font-family="Times,serif" font-size="14.00">2: U, beam</text>
+</g>
+<!-- b&#45;&gt;2 -->
+<g id="edge18" class="edge"><title>b&#45;&gt;2</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M334.406,-313.004C319.708,-322.631 300.208,-333.506 281,-338.5 234.601,-350.563 180.818,-327.582 149.769,-310.675"/>
+</g>
+<!-- f&#45;&gt;5 -->
+<g id="edge19" class="edge"><title>f&#45;&gt;5</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M268.94,-34C245.332,-34 221.725,-34 198.117,-34"/>
+</g>
+<!-- d&#45;&gt;f -->
+<g id="edge4" class="edge"><title>d&#45;&gt;f</title>
+<path fill="none" stroke="black" d="M367.823,-102.799C356.945,-90.4713 342.128,-73.6787 329.962,-59.8902"/>
+<polygon fill="black" stroke="black" points="332.395,-57.3582 323.155,-52.1754 327.147,-61.9895 332.395,-57.3582"/>
+<text text-anchor="middle" x="356" y="-73.8" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- 4 -->
+<g id="node10" class="node"><title>4</title>
+<ellipse fill="#cccccc" stroke="black" cx="67" cy="-121" rx="50.8918" ry="18"/>
+<text text-anchor="middle" x="67" y="-117.3" font-family="Times,serif" font-size="14.00">4: U, beam</text>
+</g>
+<!-- d&#45;&gt;4 -->
+<g id="edge20" class="edge"><title>d&#45;&gt;4</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M358.406,-139.004C343.708,-148.631 324.208,-159.506 305,-164.5 234.456,-182.841 211.331,-183.641 141,-164.5 121.588,-159.217 102.07,-147.409 87.9575,-137.427"/>
+</g>
+<!-- 1&#45;&gt;2 -->
+<g id="edge8" class="edge"><title>1&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M143.143,-363.799C139.825,-352.047 135.361,-336.238 131.579,-322.842"/>
+<polygon fill="black" stroke="black" points="134.935,-321.848 128.85,-313.175 128.199,-323.75 134.935,-321.848"/>
+<text text-anchor="middle" x="158.5" y="-334.8" font-family="Times,serif" font-size="14.00">next_to</text>
+</g>
+<!-- 1&#45;&gt;5 -->
+<g id="edge9" class="edge"><title>1&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M168.758,-365.217C174.389,-359.787 179.808,-353.233 183,-346 216.95,-269.084 198.635,-240.728 191,-157 187.43,-117.847 184.958,-108.033 175,-70 174.268,-67.2036 173.422,-64.3089 172.526,-61.4368"/>
+<polygon fill="black" stroke="black" points="175.844,-60.3236 169.373,-51.9349 169.2,-62.5283 175.844,-60.3236"/>
+<text text-anchor="middle" x="207" y="-204.3" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- 2&#45;&gt;3 -->
+<g id="edge10" class="edge"><title>2&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M116.512,-276.799C111.313,-264.854 104.289,-248.717 98.3973,-235.183"/>
+<polygon fill="black" stroke="black" points="101.551,-233.657 94.3501,-225.885 95.1322,-236.451 101.551,-233.657"/>
+<text text-anchor="middle" x="128.5" y="-247.8" font-family="Times,serif" font-size="14.00">next_to</text>
+</g>
+<!-- 2&#45;&gt;5 -->
+<g id="edge12" class="edge"><title>2&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M139.962,-277.758C144.554,-272.218 149.099,-265.715 152,-259 180.466,-193.097 173.635,-105.932 167.584,-62.3156"/>
+<polygon fill="black" stroke="black" points="171.013,-61.5827 166.084,-52.2044 164.089,-62.6097 171.013,-61.5827"/>
+<text text-anchor="middle" x="180" y="-160.8" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g id="edge13" class="edge"><title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M82.9527,-189.799C80.2147,-178.163 76.5407,-162.548 73.4087,-149.237"/>
+<polygon fill="black" stroke="black" points="76.7387,-148.108 71.0413,-139.175 69.9248,-149.711 76.7387,-148.108"/>
+<text text-anchor="middle" x="99.5" y="-160.8" font-family="Times,serif" font-size="14.00">next_to</text>
+</g>
+<!-- 3&#45;&gt;5 -->
+<g id="edge14" class="edge"><title>3&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M107.519,-191.229C113.556,-185.713 119.689,-179.106 124,-172 144.926,-137.503 155.02,-91.3298 159.589,-62.3762"/>
+<polygon fill="black" stroke="black" points="163.096,-62.5842 161.081,-52.1827 156.169,-61.5705 163.096,-62.5842"/>
+<text text-anchor="middle" x="158" y="-117.3" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+<!-- 4&#45;&gt;5 -->
+<g id="edge11" class="edge"><title>4&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M85.0569,-104.012C100.087,-90.7046 121.638,-71.6229 138.271,-56.8957"/>
+<polygon fill="black" stroke="black" points="140.824,-59.3097 145.991,-50.0602 136.184,-54.0688 140.824,-59.3097"/>
+<text text-anchor="middle" x="128" y="-73.8" font-family="Times,serif" font-size="14.00">on</text>
+</g>
+</g>
+</svg>
+
+</div>
+ 
+             </div>
+
+<div class="output_area">
+    
+        <div class="prompt"></div>
+        
+	</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -14071,6 +14137,12 @@ Plan:
 
 <script>
 
+requirejs.config({
+  paths: {
+    'reveal': ['https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.min']
+  }
+});
+
 require(
     {
       // it makes sense to wait a little bit when you are loading
@@ -14078,28 +14150,27 @@ require(
       waitSeconds: 15
     },
     [
-      "reveal.js/lib/js/head.min.js",
-      "reveal.js/js/reveal.js"
+      'reveal'
     ],
 
-    function(head, Reveal){
+    function(Reveal){
 
         // Full list of configuration options available here: https://github.com/hakimel/reveal.js#configuration
         Reveal.initialize({
             controls: true,
             progress: true,
-            history: true,
+            history: true
 
-            transition: "slide",
+            //transition: "slide",
 
             // Optional libraries used to extend on reveal.js
-            dependencies: [
-                { src: "reveal.js/lib/js/classList.js",
-                  condition: function() { return !document.body.classList; } },
-                { src: "reveal.js/plugin/notes/notes.js",
-                  async: true,
-                  condition: function() { return !!document.body.classList; } }
-            ]
+            //dependencies: [
+            //    { src: "reveal.js/lib/js/classList.js",
+            //      condition: function() { return !document.body.classList; } },
+            //    { src: "reveal.js/plugin/notes/notes.js",
+            //      async: true,
+            //      condition: function() { return !!document.body.classList; } }
+            //]
         });
 
         var update = function(event){

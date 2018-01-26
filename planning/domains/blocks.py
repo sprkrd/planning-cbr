@@ -66,7 +66,7 @@ class BlocksDomain(Domain):
         margin_left = 5
         margin_right = 5
         margin_bottom = 5
-        size = (350, 175) # canvas size
+        size = (500, 250) # canvas size
         L = 100 - margin_left - margin_right
         l = L/(len(slots)+1)
         slot_size = (1, 80)
